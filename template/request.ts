@@ -1,13 +1,12 @@
-import fetch from "node-fetch";
 import Configuration from "./configuration";
 
-interface Parameter {
+export interface Parameter {
   name: string;
   value: any;
   type: string;
 }
 
-interface Headers {
+export interface Headers {
   [index: string]: string;
 }
 
@@ -17,6 +16,7 @@ export async function request(
   method: string,
   params: Parameter[]
 ): Promise<any> {
+  // replace path parameters with values
   for (const pathParam of params.filter((p) => p.type === "path")) {
     path = path.replace(
       `{${pathParam.name}}`,
@@ -26,6 +26,7 @@ export async function request(
 
   let url = config.basePath + config.servers[0] + path;
 
+  // build the query string
   const queryParams = params.filter((p) => p.type === "query");
   if (method === "get" && queryParams.length > 0) {
     const q: [string, string][] = queryParams.map((p) => [
@@ -49,7 +50,8 @@ export async function request(
       return acc;
     }, {});
 
-  const response = await fetch(url, {
+  return await config.transport({
+    url,
     method,
     body,
     headers: {
@@ -58,6 +60,4 @@ export async function request(
       ...additionalHeaders
     },
   });
-
-  return await response.json();
 }

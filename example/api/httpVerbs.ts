@@ -1,13 +1,12 @@
-import fetch from "node-fetch";
 import Configuration from "./configuration";
 
-interface Parameter {
+export interface Parameter {
   name: string;
   value: any;
   type: string;
 }
 
-interface Headers {
+export interface Headers {
   [index: string]: string;
 }
 
@@ -49,7 +48,8 @@ export async function request(
       return acc;
     }, {});
 
-  const response = await fetch(url, {
+  return await config.transport({
+    url,
     method,
     body,
     headers: {
@@ -58,6 +58,4 @@ export async function request(
       ...additionalHeaders,
     },
   });
-
-  return await response.json();
 }

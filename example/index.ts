@@ -1,8 +1,9 @@
 import Api from "./api/api";
 import Configuration from "./api/configuration";
 import { Pet } from "./api/model";
+import { transport } from "./api/nodeFetch"
 
-const config = new Configuration();
+const config = new Configuration(transport);
 config.basePath = "https://petstore3.swagger.io";
 const api = new Api(config);
 

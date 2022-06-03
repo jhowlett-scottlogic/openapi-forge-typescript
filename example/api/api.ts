@@ -21,6 +21,7 @@ export default class Api {
 
   // Update an existing pet
   // Update an existing pet by Id
+  // @param body
   async updatePet(body: Pet): Promise<Pet> {
     return request(this.config, "/pet", "put", [
       {
@@ -33,6 +34,7 @@ export default class Api {
 
   // Add a new pet to the store
   // Add a new pet to the store
+  // @param body
   async addPet(body: Pet): Promise<Pet> {
     return request(this.config, "/pet", "post", [
       {
@@ -84,8 +86,8 @@ export default class Api {
 
   // Deletes a pet
 
-  // @param api_key
   // @param petId Pet id to delete
+  // @param api_key
   async deletePet(petId: number, api_key?: string): Promise<null> {
     return request(this.config, "/pet/{petId}", "delete", [
       {
@@ -103,6 +105,7 @@ export default class Api {
 
   // Place an order for a pet
   // Place a new order in the store
+  // @param body
   async placeOrder(body: Order): Promise<Order> {
     return request(this.config, "/store/order", "post", [
       {
@@ -141,6 +144,7 @@ export default class Api {
 
   // Create user
   // This can only be done by the logged in user.
+  // @param body
   async createUser(body: User): Promise<User> {
     return request(this.config, "/user", "post", [
       {
@@ -153,6 +157,7 @@ export default class Api {
 
   // Creates list of users with given input array
   // Creates list of users with given input array
+  // @param body
   async createUsersWithListInput(body: User[]): Promise<User> {
     return request(this.config, "/user/createWithList", "post", [
       {
@@ -198,6 +203,7 @@ export default class Api {
   // Update user
   // This can only be done by the logged in user.
   // @param username name that need to be deleted
+  // @param body
   async updateUser(username: string, body: User): Promise<null> {
     return request(this.config, "/user/{username}", "put", [
       {

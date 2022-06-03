@@ -1,5 +1,14 @@
 
+export interface TransportFunc {
+  (request: any): Promise<any>;
+}
+
 export default class Configuration {
   public servers: string[] = [{{#each servers}}"{{url}}",{{/each}}];
-  public basePath?: string
+  public basePath?: string;
+  public transport: TransportFunc;
+
+  constructor(transport: TransportFunc) {
+    this.transport = transport;
+  }
 }

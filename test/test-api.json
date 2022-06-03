@@ -32,7 +32,7 @@
         "operationId": "testPathParameters",
         "parameters": [
           {
-            "name": "value",
+            "name": "test",
             "in": "path",
             "schema": {
               "type": "string"
