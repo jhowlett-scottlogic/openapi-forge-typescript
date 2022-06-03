@@ -36,6 +36,3 @@ api.findPetsByStatus("available").then((data) => {
 //     console.log(data);
 //   });
 
-// // api.getPetById(2330).then((data) => {
-// //   console.log(data);
-// // });
