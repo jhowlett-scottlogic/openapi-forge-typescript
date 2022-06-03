@@ -21,7 +21,7 @@ export default class Api {
     
     {{#if summary}}// {{summary}}{{/if}}
     {{#if description}}// {{description}}{{/if}}
-    {{#each parameters}}
+    {{#each _sortedParameters}}
       // @param {{name}} {{description}}
     {{/each}}
     async {{operationId}}(
@@ -42,29 +42,5 @@ export default class Api {
 
   {{/each}}  
   {{/each}}
-
-  {{!-- {{#each paths}}
-  {{setVar "path" @key}}
-  {{#with post}}
-    
-    {{#if summary}}// {{summary}}{{/if}}
-    {{#if description}}// {{description}}{{/if}}
-    {{#each parameters}}
-      // @param {{name}} {{description}}
-    {{/each}}
-    async {{operationId}}(
-      value: {{#with (lookup requestBody.content 'application/json')}}{{typeConvert schema}}{{/with}}
-    ): Promise<
-      {{#if responses.200}}
-        {{#with (lookup responses.200.content 'application/json')}}{{typeConvert schema}}{{/with}}
-      {{else}}
-        {{#with (lookup responses.default.content 'application/json')}}{{typeConvert schema}}{{/with}}
-      {{/if}}
-      > {
-      return post(this.config, "{{@root.path}}", value);
-    };
-    
-  {{/with}}
-  {{/each}} --}}
 }
 
