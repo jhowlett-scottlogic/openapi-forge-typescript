@@ -4,7 +4,7 @@ import Configuration from "./configuration";
     {{#each components.schemas}}{{@key}}, {{/each}}
   } from "./model";
 {{/if}}
-import { request } from "./request";
+import { request, Parameter } from "./request";
 
 // {{info.title}}
 {{!-- // {{info.description}} --}}
@@ -29,12 +29,12 @@ export default class Api {
         {{name}}{{#if _optional}}?{{/if}}: {{typeConvert schema}}{{#if schema.default}} = "{{schema.default}}"{{/if}},
       {{/each}}
     ): Promise<{{#if _response.schema}}{{typeConvert _response.schema}}{{else}}null{{/if}}> {
-      const params = [
+      const params: Parameter[] = [
         {{#each _sortedParameters}}
         {{#unless _optional}}
           {
             name: "{{name}}",
-            value: {{name}},
+            value: {{name}}.toString(),
             type: "{{in}}"
           },
         {{/unless}}
@@ -45,7 +45,7 @@ export default class Api {
       if ({{name}}) {
         params.push({
           name: "{{name}}",
-          value: {{name}},
+          value: {{name}}.toString(),
           type: "{{in}}"
         })
       }

@@ -9,7 +9,7 @@ import {
   Pet,
   ApiResponse,
 } from "./model";
-import { request } from "./httpVerbs";
+import { request, Parameter } from "./request";
 
 // Swagger Petstore - OpenAPI 3.0
 export default class Api {
@@ -23,65 +23,71 @@ export default class Api {
   // Update an existing pet by Id
   // @param body
   async updatePet(body: Pet): Promise<Pet> {
-    return request(this.config, "/pet", "put", [
+    const params: Parameter[] = [
       {
         name: "body",
-        value: body,
+        value: body.toString(),
         type: "query",
       },
-    ]);
+    ];
+    return request(this.config, "/pet", "put", params);
   }
 
   // Add a new pet to the store
   // Add a new pet to the store
   // @param body
   async addPet(body: Pet): Promise<Pet> {
-    return request(this.config, "/pet", "post", [
+    const params: Parameter[] = [
       {
         name: "body",
-        value: body,
+        value: body.toString(),
         type: "query",
       },
-    ]);
+    ];
+    return request(this.config, "/pet", "post", params);
   }
 
   // Finds Pets by status
   // Multiple status values can be provided with comma separated strings
   // @param status Status values that need to be considered for filter
   async findPetsByStatus(status: string = "available"): Promise<Pet[]> {
-    return request(this.config, "/pet/findByStatus", "get", [
+    const params: Parameter[] = [
       {
         name: "status",
-        value: status,
+        value: status.toString(),
         type: "query",
       },
-    ]);
+    ];
+    return request(this.config, "/pet/findByStatus", "get", params);
   }
 
   // Finds Pets by tags
   // Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
   // @param tags Tags to filter by
   async findPetsByTags(tags?: string[]): Promise<Pet[]> {
-    return request(this.config, "/pet/findByTags", "get", [
-      {
+    const params: Parameter[] = [];
+    if (tags) {
+      params.push({
         name: "tags",
-        value: tags,
+        value: tags.toString(),
         type: "query",
-      },
-    ]);
+      });
+    }
+    return request(this.config, "/pet/findByTags", "get", params);
   }
 
   // Find pet by ID
   // Returns a single pet
   // @param petId ID of pet to return
   async getPetById(petId: number): Promise<Pet> {
-    return request(this.config, "/pet/{petId}", "get", [
+    const params: Parameter[] = [
       {
         name: "petId",
-        value: petId,
+        value: petId.toString(),
         type: "path",
       },
-    ]);
+    ];
+    return request(this.config, "/pet/{petId}", "get", params);
   }
 
   // Deletes a pet
@@ -89,83 +95,91 @@ export default class Api {
   // @param petId Pet id to delete
   // @param api_key
   async deletePet(petId: number, api_key?: string): Promise<null> {
-    return request(this.config, "/pet/{petId}", "delete", [
+    const params: Parameter[] = [
       {
         name: "petId",
-        value: petId,
+        value: petId.toString(),
         type: "path",
       },
-      {
+    ];
+    if (api_key) {
+      params.push({
         name: "api_key",
-        value: api_key,
+        value: api_key.toString(),
         type: "header",
-      },
-    ]);
+      });
+    }
+    return request(this.config, "/pet/{petId}", "delete", params);
   }
 
   // Place an order for a pet
   // Place a new order in the store
   // @param body
   async placeOrder(body: Order): Promise<Order> {
-    return request(this.config, "/store/order", "post", [
+    const params: Parameter[] = [
       {
         name: "body",
-        value: body,
+        value: body.toString(),
         type: "query",
       },
-    ]);
+    ];
+    return request(this.config, "/store/order", "post", params);
   }
 
   // Find purchase order by ID
   // For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions.
   // @param orderId ID of order that needs to be fetched
   async getOrderById(orderId: number): Promise<Order> {
-    return request(this.config, "/store/order/{orderId}", "get", [
+    const params: Parameter[] = [
       {
         name: "orderId",
-        value: orderId,
+        value: orderId.toString(),
         type: "path",
       },
-    ]);
+    ];
+    return request(this.config, "/store/order/{orderId}", "get", params);
   }
 
   // Delete purchase order by ID
   // For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
   // @param orderId ID of the order that needs to be deleted
   async deleteOrder(orderId: number): Promise<null> {
-    return request(this.config, "/store/order/{orderId}", "delete", [
+    const params: Parameter[] = [
       {
         name: "orderId",
-        value: orderId,
+        value: orderId.toString(),
         type: "path",
       },
-    ]);
+    ];
+    return request(this.config, "/store/order/{orderId}", "delete", params);
   }
 
   // Create user
   // This can only be done by the logged in user.
   // @param body
   async createUser(body: User): Promise<User> {
-    return request(this.config, "/user", "post", [
+    const params: Parameter[] = [
       {
         name: "body",
-        value: body,
+        value: body.toString(),
         type: "query",
       },
-    ]);
+    ];
+    return request(this.config, "/user", "post", params);
   }
 
   // Creates list of users with given input array
   // Creates list of users with given input array
   // @param body
   async createUsersWithListInput(body: User[]): Promise<User> {
-    return request(this.config, "/user/createWithList", "post", [
+    const params: Parameter[] = [
       {
         name: "body",
-        value: body,
+        value: body.toString(),
         type: "query",
       },
-    ]);
+    ];
+    return request(this.config, "/user/createWithList", "post", params);
   }
 
   // Logs user into the system
@@ -173,31 +187,36 @@ export default class Api {
   // @param username The user name for login
   // @param password The password for login in clear text
   async loginUser(username?: string, password?: string): Promise<string> {
-    return request(this.config, "/user/login", "get", [
-      {
+    const params: Parameter[] = [];
+    if (username) {
+      params.push({
         name: "username",
-        value: username,
+        value: username.toString(),
         type: "query",
-      },
-      {
+      });
+    }
+    if (password) {
+      params.push({
         name: "password",
-        value: password,
+        value: password.toString(),
         type: "query",
-      },
-    ]);
+      });
+    }
+    return request(this.config, "/user/login", "get", params);
   }
 
   // Get user by user name
 
   // @param username The name that needs to be fetched. Use user1 for testing.
   async getUserByName(username: string): Promise<User> {
-    return request(this.config, "/user/{username}", "get", [
+    const params: Parameter[] = [
       {
         name: "username",
-        value: username,
+        value: username.toString(),
         type: "path",
       },
-    ]);
+    ];
+    return request(this.config, "/user/{username}", "get", params);
   }
 
   // Update user
@@ -205,30 +224,32 @@ export default class Api {
   // @param username name that need to be deleted
   // @param body
   async updateUser(username: string, body: User): Promise<null> {
-    return request(this.config, "/user/{username}", "put", [
+    const params: Parameter[] = [
       {
         name: "username",
-        value: username,
+        value: username.toString(),
         type: "path",
       },
       {
         name: "body",
-        value: body,
+        value: body.toString(),
         type: "query",
       },
-    ]);
+    ];
+    return request(this.config, "/user/{username}", "put", params);
   }
 
   // Delete user
   // This can only be done by the logged in user.
   // @param username The name that needs to be deleted
   async deleteUser(username: string): Promise<null> {
-    return request(this.config, "/user/{username}", "delete", [
+    const params: Parameter[] = [
       {
         name: "username",
-        value: username,
+        value: username.toString(),
         type: "path",
       },
-    ]);
+    ];
+    return request(this.config, "/user/{username}", "delete", params);
   }
 }

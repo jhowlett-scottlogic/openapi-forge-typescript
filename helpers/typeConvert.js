@@ -21,7 +21,7 @@ function typeConvert(prop) {
       return "boolean";
     case "date":
     case "dateTime":
-      return "object";
+      return "Date";
     case "array":
       return `${typeConvert(prop.items)}[]`;
   }

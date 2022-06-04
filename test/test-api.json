@@ -249,7 +249,7 @@
             "name": "value",
             "in": "query",
             "schema": {
-              "$ref": "#/definitions/ObjectResponse"
+              "$ref": "#/components/schemas/ObjectResponse"
             }
             
           }
@@ -323,7 +323,7 @@
       "ParentObject": {
         "type": "object",
         "properties": {
-          "child": { "$ref": "#/definitions/ChildObject" }
+          "child": { "$ref": "#/components/schemas/ChildObject" }
         }
       },
       "SubClassObject": {

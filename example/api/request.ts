@@ -10,13 +10,6 @@ export interface Headers {
   [index: string]: string;
 }
 
-export interface RequestParemeters {
-  url: string;
-  method: string;
-  body: string;
-  headers: Headers;
-}
-
 export async function request(
   config: Configuration,
   path: string,
@@ -36,7 +29,11 @@ export async function request(
   // build the query string
   const queryParams = params.filter((p) => p.type === "query");
   if (method === "get" && queryParams.length > 0) {
-    url += "?" + new URLSearchParams(queryParams.map((p) => [p.name, p.value]));
+    const q: [string, string][] = queryParams.map((p) => [
+      p.name,
+      `${p.value}`,
+    ]);
+    url += "?" + new URLSearchParams(q);
   }
 
   // TODO: tidy this up a bit ...
@@ -49,7 +46,7 @@ export async function request(
   const additionalHeaders = params
     .filter((p) => p.type === "header")
     .reduce<Headers>((acc, param) => {
-      acc[param.name] = param.value;
+      acc[param.name] = `${param.value}`;
       return acc;
     }, {});
 
