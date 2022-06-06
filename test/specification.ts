@@ -10,8 +10,8 @@ config.basePath = "https://example.com";
 const api = new Api(config);
 
 describe("data types", () => {
-  //github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.0.md#data-types
-  https: test("primitive data types", async () => {
+  //https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.0.md#data-types
+ test("primitive data types", async () => {
     api.testDataTypes(
       1,
       2,

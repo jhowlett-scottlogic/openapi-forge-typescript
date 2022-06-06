@@ -10,7 +10,7 @@ export interface Headers {
   [index: string]: string;
 }
 
-export interface RequestParemeters {
+export interface RequestParameters {
   url: string;
   method: string;
   body: string;
