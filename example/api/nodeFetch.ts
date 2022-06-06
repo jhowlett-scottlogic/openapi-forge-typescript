@@ -1,6 +1,8 @@
 import fetch from "node-fetch";
 
-export async function transport(stuff: any) {
-  const response = await fetch(stuff.url, stuff);
+import { RequestParameters } from "./request";
+
+export async function transport(params: RequestParameters) {
+  const response = await fetch(params.url, params);
   return await response.json();
 }

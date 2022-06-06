@@ -10,6 +10,13 @@ export interface Headers {
   [index: string]: string;
 }
 
+export interface RequestParameters {
+  url: string;
+  method: string;
+  body?: string;
+  headers: Headers;
+}
+
 export async function request(
   config: Configuration,
   path: string,
@@ -29,35 +36,34 @@ export async function request(
   // build the query string
   const queryParams = params.filter((p) => p.type === "query");
   if (method === "get" && queryParams.length > 0) {
-    const q: [string, string][] = queryParams.map((p) => [
-      p.name,
-      `${p.value}`,
-    ]);
-    url += "?" + new URLSearchParams(q);
-  }
-
-  // TODO: tidy this up a bit ...
-  let body;
-  let kv = params.find((p) => p.type === "body");
-  if (kv) {
-    body = JSON.stringify(kv.value);
+    url +=
+      "?" +
+      new URLSearchParams(
+        queryParams.map((p) => [p.name, p.value]) as [string, string][]
+      );
   }
 
   const additionalHeaders = params
     .filter((p) => p.type === "header")
     .reduce<Headers>((acc, param) => {
-      acc[param.name] = `${param.value}`;
+      acc[param.name] = param.value;
       return acc;
     }, {});
 
-  return await config.transport({
+  let requestParams: RequestParameters = {
     url,
     method,
-    body,
     headers: {
       accept: "application/json",
       "Content-Type": "application/json",
       ...additionalHeaders,
     },
-  });
+  };
+
+  const bodyParam = params.find((p) => p.type === "body");
+  if (bodyParam) {
+    requestParams.body = JSON.stringify(bodyParam.value);
+  }
+
+  return await config.transport(requestParams);
 }

@@ -1,5 +1,7 @@
+import { RequestParameters } from "./request";
+
 export interface TransportFunc {
-  (request: any): Promise<any>;
+  (request: RequestParameters): Promise<any>;
 }
 
 export default class Configuration {
