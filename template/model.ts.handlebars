@@ -1,4 +1,9 @@
 {{#each components.schemas}}
+{{#if description}}
+/**
+ * {{description}}
+ */
+{{/if}}
 export class {{@key}} {
   {{#each properties}}
     {{#if description}}

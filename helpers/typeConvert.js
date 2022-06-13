@@ -8,20 +8,12 @@ function typeConvert(prop) {
 
   switch (prop.type) {
     case "integer":
-    case "long":
-    case "float":
-    case "double":
+    case "number":
       return "number";
     case "string":
-    case "byte":
-    case "binary":
-    case "password":
       return "string";
     case "boolean":
       return "boolean";
-    case "date":
-    case "dateTime":
-      return "Date";
     case "array":
       return `${typeConvert(prop.items)}[]`;
     // inline object definition

@@ -26,7 +26,7 @@ export default class Api {
     {{/each}}
     async {{operationId}}(
       {{#each _sortedParameters}}
-        {{name}}{{#if _optional}}?{{/if}}: {{typeConvert schema}}{{#if schema.default}} = "{{schema.default}}"{{/if}},
+        {{name}}{{#if _optional}}?{{/if}}: {{typeConvert schema}}{{#if schema.default}} = {{{quoteIfString schema.default}}}{{/if}},
       {{/each}}
     ): Promise<{{#if _response.schema}}{{typeConvert _response.schema}}{{else}}null{{/if}}> {
       const params: Parameter[] = [

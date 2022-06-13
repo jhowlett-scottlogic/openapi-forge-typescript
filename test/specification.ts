@@ -12,19 +12,7 @@ describe("data types", () => {
 
   //https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.0.md#data-types
   test("primitive data types", async () => {
-    api.testDataTypes(
-      1,
-      2,
-      3,
-      5,
-      "string",
-      "string",
-      "string",
-      true,
-      new Date(),
-      new Date(),
-      "string"
-    );
+    api.testDataTypes(1, "string", true);
   });
 
   //github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.0.md#data-types
@@ -88,8 +76,13 @@ describe("Open API Document", () => {
         test("parameter default values", async () => {
           await api.testDefaultParam();
           expect(mockTransport.mock.calls[0][0].url).toBe(
-            "https://example.com/api/v3/test/testDefaultParam?paramTwo=valTwo"
+            "https://example.com/api/v3/test/testDefaultParam?paramTwo=valTwo&paramThree=3.4"
           );
+          await api.testDefaultParam("foo", 23.4, "bar");
+          expect(mockTransport.mock.calls[1][0].url).toBe(
+            "https://example.com/api/v3/test/testDefaultParam?paramTwo=foo&paramThree=23.4&paramOne=bar"
+          );
+          
         });
         test.skip("header parameters", async () => {
           // TODO

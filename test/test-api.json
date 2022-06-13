@@ -70,6 +70,14 @@
               "type": "string",
               "default": "valTwo"
             }
+          },
+          {
+            "name": "paramThree",
+            "in": "query",
+            "schema": {
+              "type": "number",
+              "default": 3.4
+            }
           }
         ],
         "responses": {
@@ -130,27 +138,6 @@
             }
           },
           {
-            "name": "value2",
-            "in": "query",
-            "schema": {
-              "type": "long"
-            }
-          },
-          {
-            "name": "value3",
-            "in": "query",
-            "schema": {
-              "type": "float"
-            }
-          },
-          {
-            "name": "value4",
-            "in": "query",
-            "schema": {
-              "type": "double"
-            }
-          },
-          {
             "name": "value5",
             "in": "query",
             "schema": {
@@ -158,45 +145,10 @@
             }
           },
           {
-            "name": "value6",
-            "in": "query",
-            "schema": {
-              "type": "byte"
-            }
-          },
-          {
-            "name": "value7",
-            "in": "query",
-            "schema": {
-              "type": "binary"
-            }
-          },
-          {
             "name": "value8",
             "in": "query",
             "schema": {
               "type": "boolean"
-            }
-          },
-          {
-            "name": "value9",
-            "in": "query",
-            "schema": {
-              "type": "date"
-            }
-          },
-          {
-            "name": "value10",
-            "in": "query",
-            "schema": {
-              "type": "dateTime"
-            }
-          },
-          {
-            "name": "value11",
-            "in": "query",
-            "schema": {
-              "type": "password"
             }
           }
         ],
