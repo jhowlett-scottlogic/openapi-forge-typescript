@@ -24,6 +24,13 @@ function typeConvert(prop) {
       return "Date";
     case "array":
       return `${typeConvert(prop.items)}[]`;
+    // inline object definition
+    case "object":
+      if (prop.additionalProperties) {
+        return `{ [name: string]: ${typeConvert(prop.additionalProperties)} }`
+      } else {
+        return "{}";
+      }
   }
   return "";
 }
