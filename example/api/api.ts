@@ -90,6 +90,40 @@ export default class Api {
     return request(this.config, "/pet/{petId}", "get", params);
   }
 
+  // Updates a pet in the store with form data
+
+  // @param petId ID of pet that needs to be updated
+  // @param name Name of pet that needs to be updated
+  // @param status Status of pet that needs to be updated
+  async updatePetWithForm(
+    petId: number,
+    name?: string,
+    status?: string
+  ): Promise<null> {
+    const params: Parameter[] = [
+      {
+        name: "petId",
+        value: petId.toString(),
+        type: "path",
+      },
+    ];
+    if (name) {
+      params.push({
+        name: "name",
+        value: name.toString(),
+        type: "query",
+      });
+    }
+    if (status) {
+      params.push({
+        name: "status",
+        value: status.toString(),
+        type: "query",
+      });
+    }
+    return request(this.config, "/pet/{petId}", "post", params);
+  }
+
   // Deletes a pet
 
   // @param petId Pet id to delete
@@ -110,6 +144,38 @@ export default class Api {
       });
     }
     return request(this.config, "/pet/{petId}", "delete", params);
+  }
+
+  // uploads an image
+
+  // @param petId ID of pet to update
+  // @param additionalMetadata Additional Metadata
+  async uploadFile(
+    petId: number,
+    additionalMetadata?: string
+  ): Promise<ApiResponse> {
+    const params: Parameter[] = [
+      {
+        name: "petId",
+        value: petId.toString(),
+        type: "path",
+      },
+    ];
+    if (additionalMetadata) {
+      params.push({
+        name: "additionalMetadata",
+        value: additionalMetadata.toString(),
+        type: "query",
+      });
+    }
+    return request(this.config, "/pet/{petId}/uploadImage", "post", params);
+  }
+
+  // Returns pet inventories by status
+  // Returns a map of status codes to quantities
+  async getInventory(): Promise<{ [name: string]: number }> {
+    const params: Parameter[] = [];
+    return request(this.config, "/store/inventory", "get", params);
   }
 
   // Place an order for a pet
@@ -203,6 +269,13 @@ export default class Api {
       });
     }
     return request(this.config, "/user/login", "get", params);
+  }
+
+  // Logs out current logged in user session
+
+  async logoutUser(): Promise<null> {
+    const params: Parameter[] = [];
+    return request(this.config, "/user/logout", "get", params);
   }
 
   // Get user by user name

@@ -1,17 +1,17 @@
-import Configuration from "./api/configuration";
+import Configuration, { TransportFunc } from "./api/configuration";
 import Api from "./api/api";
 import { ChildObject, ObjectResponse, ParentObject } from "./api/model";
 
-let data;
-const config = new Configuration(async (d: any) => {
-  data = d;
-});
-config.basePath = "https://example.com";
-const api = new Api(config);
-
 describe("data types", () => {
+  let api: Api;
+
+  beforeEach(() => {
+    const config = new Configuration(jest.fn(async (_) => {}));
+    api = new Api(config);
+  });
+
   //https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.0.md#data-types
- test("primitive data types", async () => {
+  test("primitive data types", async () => {
     api.testDataTypes(
       1,
       2,
@@ -35,7 +35,18 @@ describe("data types", () => {
 
 // https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.0.md#oasObject
 describe("Open API Document", () => {
-  describe("servers", () => {
+  let api: Api;
+  let config: Configuration;
+  let mockTransport;
+
+  beforeEach(() => {
+    mockTransport = jest.fn(async (_) => {});
+    config = new Configuration(mockTransport);
+    config.basePath = "https://example.com";
+    api = new Api(config);
+  });
+
+  test("servers", () => {
     expect(config.servers).toEqual(["/api/v3"]);
   });
 
@@ -62,19 +73,21 @@ describe("Open API Document", () => {
         });
         test("path parameters", async () => {
           await api.testPathParameters("foo");
-          expect(data.url).toBe("https://example.com/api/v3/test/foo/pathParameters");
+          expect(mockTransport.mock.calls[0][0].url).toBe(
+            "https://example.com/api/v3/test/foo/pathParameters"
+          );
         });
 
         test("query parameters", async () => {
           await api.testGetMethod("foo");
-          expect(data.url).toBe(
+          expect(mockTransport.mock.calls[0][0].url).toBe(
             "https://example.com/api/v3/test/get?value=foo"
           );
         });
 
         test("parameter default values", async () => {
           await api.testDefaultParam();
-          expect(data.url).toBe(
+          expect(mockTransport.mock.calls[0][0].url).toBe(
             "https://example.com/api/v3/test/testDefaultParam?paramTwo=valTwo"
           );
         });
@@ -93,7 +106,7 @@ describe("Open API Document", () => {
           describe("collectionFormat", () => {
             test("defaults to CSV", async () => {
               await api.testCsvCollectionParams(["one", "two"]);
-              expect(data.url).toBe(
+              expect(mockTransport.mock.calls[0][0].url).toBe(
                 "https://example.com/api/v3/test/csvCollectionParams?value=one%2Ctwo"
               );
             });
@@ -127,8 +140,8 @@ describe("Open API Document", () => {
     describe("HTTP verbs", () => {
       test("get", async () => {
         await api.testGetMethod("foo");
-        expect(data.url).toBe("https://example.com/api/v3/test/get?value=foo");
-        expect(data.method).toBe("get");
+        expect(mockTransport.mock.calls[0][0].url).toBe("https://example.com/api/v3/test/get?value=foo");
+        expect(mockTransport.mock.calls[0][0].method).toBe("get");
       });
 
       test.skip("put", () => {});
@@ -143,6 +156,13 @@ describe("Open API Document", () => {
 
 // https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.0.md#componentsObject
 describe("components", () => {
+  let api: Api;
+
+  beforeEach(() => {
+    const config = new Configuration(jest.fn(async (_) => {}));
+    api = new Api(config);
+  });
+
   // https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.0.md#schemaObject
   describe("schemas", () => {
     test("simple object", () => {
