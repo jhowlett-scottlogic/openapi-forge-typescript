@@ -31,7 +31,7 @@ export async function request(
     );
   }
 
-  let url = config.basePath + config.servers[0] + path;
+  let url = config.basePath ?? "" + config.servers[0] + path;
 
   // build the query string
   const queryParams = params.filter((p) => p.type === "query");
@@ -43,12 +43,18 @@ export async function request(
       );
   }
 
+  // add additional headers
   const additionalHeaders = params
     .filter((p) => p.type === "header")
     .reduce<Headers>((acc, param) => {
       acc[param.name] = param.value;
       return acc;
     }, {});
+
+  // provide a bearer token if required
+  if (config.bearerToken) {
+    additionalHeaders["Authorization"] = `Bearer ${config.bearerToken}`;
+  }
 
   let requestParams: RequestParameters = {
     url,
