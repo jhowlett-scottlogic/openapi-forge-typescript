@@ -3,15 +3,19 @@
   "version": "0.1.0",
   "description": "",
   "scripts": {
-    "test:generate": "openapi-forge forge ./test/test-api.json . -o test/api --exclude=nodeFetch.ts",
-    "test:execute": "jest",
-    "test": "npm run test:generate && npm run test:execute"
+    "test": "./node_modules/.bin/cucumber-js -p default"
   },
   "license": "MIT",
   "devDependencies": {
-    "@types/jest": "^27.5.1",
-    "jest": "^28.1.0",
-    "ts-jest": "^28.0.3",
-    "typescript": "^4.6.4"
+    "@types/chai": "^4.1.7",
+    "@types/cucumber": "^4.0.5",
+    "@types/node": "^18.0.0",
+    "chai": "^4.2.0",
+    "cucumber": "^5.1.0",
+    "cucumber-pretty": "^1.5.0",
+    "cucumber-tsflow": "^3.2.0",
+    "openapi-forge": "github:ColinEberhardt/openapi-forge",
+    "ts-node": "^8.0.3",
+    "typescript": "^4.7.4"
   }
 }
