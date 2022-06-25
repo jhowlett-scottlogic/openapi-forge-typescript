@@ -10,8 +10,12 @@ function typeConvert(prop) {
     case "integer":
     case "number":
       return "number";
-    case "string":
+    case "string": {
+      if (prop.format == "date-time" || prop.format == "date") {
+        return "Date"
+      }
       return "string";
+    }
     case "boolean":
       return "boolean";
     case "array":

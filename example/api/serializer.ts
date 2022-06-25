@@ -22,5 +22,9 @@ export function deserialize(json: any, type: string): any {
     return modelObject;
   }
 
+  if (type === "Date") {
+    return new Date(json);
+  }
+
   return json;
 }

@@ -1,22 +1,23 @@
 // TODO: add type definitions to the generator
 const generate = require("openapi-forge/src/generate");
 
-import { rm, existsSync } from "fs";
-import { promisify } from "util";
+import { rmSync, existsSync } from "fs";
 
 export class BaseModelStep {
-  async cleanup() {
-    delete require.cache[require.resolve("../api/api.ts")];
-    delete require.cache[require.resolve("../api/configuration.ts")];
+  cleanup() {
+    // cache-bust the api that was loaded via CommonJS
+    Object.keys(require.cache).forEach(function (key) {
+      delete require.cache[key];
+    });
     if (existsSync("./features/api")) {
-      return promisify(rm)("./features/api", { recursive: true });
+      rmSync("./features/api", { recursive: true });
     }
   }
 
   async generateApi(schema: string) {
     await generate(JSON.parse(schema), ".", {
       output: "./features/api",
+      testRun: true,
     });
- 
   }
 }

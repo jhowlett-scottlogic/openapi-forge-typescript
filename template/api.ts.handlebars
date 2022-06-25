@@ -1,8 +1,14 @@
 import Configuration from "./configuration";
 {{#if components.schemas}}
-  import {
-    {{#each components.schemas}}{{@key}}, {{/each}}
-  } from "./model";
+  {{#if _options.testRun }}
+    const {
+      {{#each components.schemas}}{{@key}}, {{/each}}
+    } = require("./model");
+  {{else}}
+    import {
+      {{#each components.schemas}}{{@key}}, {{/each}}
+    } from "./model";
+  {{/if}}
 {{/if}}
 import { request, Parameter } from "./request";
 import { deserialize } from "./serializer";
@@ -29,7 +35,15 @@ export default class Api {
       {{#each _sortedParameters}}
         {{name}}{{#if _optional}}?{{/if}}: {{typeConvert schema}}{{#if schema.default}} = {{{quoteIfString schema.default}}}{{/if}},
       {{/each}}
-    ): Promise<{{#if _response.schema}}{{typeConvert _response.schema}}{{else}}null{{/if}}> {
+    ): Promise<
+      {{#if ../../_options.testRun }}
+        {{#if _response.schema.$ref}}typeof{{/if}}
+        {{#ifEquals _response.schema.type "array"}}typeof{{/ifEquals}}
+        {{typeConvert _response.schema}}
+      {{else}}
+        {{#if _response.schema}}{{typeConvert _response.schema}}{{else}}null{{/if}}
+      {{/if}}
+    > {
       const params: Parameter[] = [
         {{#each _sortedParameters}}
         {{#unless _optional}}

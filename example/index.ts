@@ -16,6 +16,10 @@ api.findPetsByStatus("available").then((data) => {
   console.log(data);
 });
 
+api.getOrderById(1).then((data) => {
+  console.log(data);
+});
+
 // api
 //   .addPet({
 //     id: 2330,

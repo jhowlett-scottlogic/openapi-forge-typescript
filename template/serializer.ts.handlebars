@@ -1,4 +1,8 @@
+{{#if _options.testRun }}
+const model = require("./model");
+{{else}}
 import * as model from "./model";
+{{/if}}
 
 export function deserialize(json: any, type: string): any {
 
@@ -19,6 +23,10 @@ export function deserialize(json: any, type: string): any {
     }
     return modelObject;
   } 
+
+  if (type === "Date") {
+    return new Date(json);
+  }
   
   return json;
 }

@@ -71,11 +71,12 @@ export class ModelSteps extends BaseModelStep {
     assert.equal(this.apiResponse, value);
   }
 
-  @then(
-    /the response should have a property ([a-zA-Z]*) with value ([0-9a-zA-Z]*)/
-  )
+  @then(/the response should have a property ([a-zA-Z]*) with value (.*)/)
   public checkResponseProperty(propName: string, propValue: string) {
-    assert.equal(this.apiResponse[propName].toString(), propValue);
+    const value = this.apiResponse[propName];
+    const formattedValue =
+      value instanceof Date ? value.toISOString() : value.toString();
+    assert.equal(formattedValue, propValue);
   }
 
   @then(/the response should be an array/)

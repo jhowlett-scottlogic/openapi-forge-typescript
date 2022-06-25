@@ -14,7 +14,7 @@ export class Order {
     },
     {
       name: "shipDate",
-      type: "string",
+      type: "Date",
     },
     {
       name: "status",
@@ -29,7 +29,7 @@ export class Order {
   public id?: number;
   public petId?: number;
   public quantity?: number;
-  public shipDate?: string;
+  public shipDate?: Date;
   // Order Status
   public status?: string;
   public complete?: boolean;
@@ -219,7 +219,7 @@ export class ApiResponse {
   public message?: string;
 }
 
-export const models = [
+export const models: string[] = [
   "Order",
   "Customer",
   "Address",
