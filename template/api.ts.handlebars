@@ -5,6 +5,7 @@ import Configuration from "./configuration";
   } from "./model";
 {{/if}}
 import { request, Parameter } from "./request";
+import { deserialize } from "./serializer";
 
 // {{info.title}}
 {{!-- // {{info.description}} --}}
@@ -51,7 +52,8 @@ export default class Api {
       }
       {{/if}}
       {{/each}}
-      return request(this.config, "{{@root.path}}", "{{@key}}", params);
+      const response = await request(this.config, "{{@root.path}}", "{{@key}}", params);
+      return deserialize(response, "{{#if _response.schema}}{{typeConvert _response.schema}}{{else}}null{{/if}}");
     };
 
   {{/each}}  

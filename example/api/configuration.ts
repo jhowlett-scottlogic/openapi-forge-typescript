@@ -7,6 +7,7 @@ export interface TransportFunc {
 export default class Configuration {
   public servers: string[] = ["/api/v3"];
   public basePath?: string;
+  public bearerToken?: string;
   public transport: TransportFunc;
 
   constructor(transport: TransportFunc) {

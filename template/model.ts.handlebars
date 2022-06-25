@@ -5,6 +5,17 @@
  */
 {{/if}}
 export class {{@key}} {
+
+  static propertyTypes: Array<{name: string, type: string}> =  [
+    {{#each properties}}
+      {
+        name: "{{@key}}",
+        type: "{{typeConvert this}}"
+      },
+    {{/each}}
+  ];
+
+
   {{#each properties}}
     {{#if description}}
     // {{description}}
@@ -12,4 +23,11 @@ export class {{@key}} {
     public {{@key}}{{#unless _required}}?{{/unless}}: {{typeConvert this}};
   {{/each}}
 }
+
 {{/each}}
+
+export const models: string[] = [
+{{#each components.schemas}}
+"{{@key}}", 
+{{/each}}
+];

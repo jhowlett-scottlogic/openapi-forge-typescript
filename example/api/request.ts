@@ -71,6 +71,5 @@ export async function request(
     requestParams.body = JSON.stringify(bodyParam.value);
   }
 
-  console.log(requestParams);
   return await config.transport(requestParams);
 }

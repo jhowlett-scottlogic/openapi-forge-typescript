@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "generate-api": "openapi-forge forge ./petstore.json .. -o api",
-    "start": "npm run generate-api && ts-node index.ts"
+    "start": " ts-node index.ts"
   },
   "dependencies": {
     "node-fetch": "^2.6.7"

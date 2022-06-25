@@ -10,6 +10,7 @@ import {
   ApiResponse,
 } from "./model";
 import { request, Parameter } from "./request";
+import { deserialize } from "./serializer";
 
 // Swagger Petstore - OpenAPI 3.0
 export default class Api {
@@ -30,7 +31,8 @@ export default class Api {
         type: "query",
       },
     ];
-    return request(this.config, "/pet", "put", params);
+    const response = await request(this.config, "/pet", "put", params);
+    return deserialize(response, "Pet");
   }
 
   // Add a new pet to the store
@@ -44,7 +46,8 @@ export default class Api {
         type: "query",
       },
     ];
-    return request(this.config, "/pet", "post", params);
+    const response = await request(this.config, "/pet", "post", params);
+    return deserialize(response, "Pet");
   }
 
   // Finds Pets by status
@@ -58,7 +61,13 @@ export default class Api {
         type: "query",
       },
     ];
-    return request(this.config, "/pet/findByStatus", "get", params);
+    const response = await request(
+      this.config,
+      "/pet/findByStatus",
+      "get",
+      params
+    );
+    return deserialize(response, "Pet[]");
   }
 
   // Finds Pets by tags
@@ -73,7 +82,13 @@ export default class Api {
         type: "query",
       });
     }
-    return request(this.config, "/pet/findByTags", "get", params);
+    const response = await request(
+      this.config,
+      "/pet/findByTags",
+      "get",
+      params
+    );
+    return deserialize(response, "Pet[]");
   }
 
   // Find pet by ID
@@ -87,7 +102,8 @@ export default class Api {
         type: "path",
       },
     ];
-    return request(this.config, "/pet/{petId}", "get", params);
+    const response = await request(this.config, "/pet/{petId}", "get", params);
+    return deserialize(response, "Pet");
   }
 
   // Updates a pet in the store with form data
@@ -121,7 +137,8 @@ export default class Api {
         type: "query",
       });
     }
-    return request(this.config, "/pet/{petId}", "post", params);
+    const response = await request(this.config, "/pet/{petId}", "post", params);
+    return deserialize(response, "null");
   }
 
   // Deletes a pet
@@ -143,7 +160,13 @@ export default class Api {
         type: "header",
       });
     }
-    return request(this.config, "/pet/{petId}", "delete", params);
+    const response = await request(
+      this.config,
+      "/pet/{petId}",
+      "delete",
+      params
+    );
+    return deserialize(response, "null");
   }
 
   // uploads an image
@@ -168,14 +191,26 @@ export default class Api {
         type: "query",
       });
     }
-    return request(this.config, "/pet/{petId}/uploadImage", "post", params);
+    const response = await request(
+      this.config,
+      "/pet/{petId}/uploadImage",
+      "post",
+      params
+    );
+    return deserialize(response, "ApiResponse");
   }
 
   // Returns pet inventories by status
   // Returns a map of status codes to quantities
   async getInventory(): Promise<{ [name: string]: number }> {
     const params: Parameter[] = [];
-    return request(this.config, "/store/inventory", "get", params);
+    const response = await request(
+      this.config,
+      "/store/inventory",
+      "get",
+      params
+    );
+    return deserialize(response, "{ [name: string]: number }");
   }
 
   // Place an order for a pet
@@ -189,7 +224,8 @@ export default class Api {
         type: "query",
       },
     ];
-    return request(this.config, "/store/order", "post", params);
+    const response = await request(this.config, "/store/order", "post", params);
+    return deserialize(response, "Order");
   }
 
   // Find purchase order by ID
@@ -203,7 +239,13 @@ export default class Api {
         type: "path",
       },
     ];
-    return request(this.config, "/store/order/{orderId}", "get", params);
+    const response = await request(
+      this.config,
+      "/store/order/{orderId}",
+      "get",
+      params
+    );
+    return deserialize(response, "Order");
   }
 
   // Delete purchase order by ID
@@ -217,7 +259,13 @@ export default class Api {
         type: "path",
       },
     ];
-    return request(this.config, "/store/order/{orderId}", "delete", params);
+    const response = await request(
+      this.config,
+      "/store/order/{orderId}",
+      "delete",
+      params
+    );
+    return deserialize(response, "null");
   }
 
   // Create user
@@ -231,7 +279,8 @@ export default class Api {
         type: "query",
       },
     ];
-    return request(this.config, "/user", "post", params);
+    const response = await request(this.config, "/user", "post", params);
+    return deserialize(response, "User");
   }
 
   // Creates list of users with given input array
@@ -245,7 +294,13 @@ export default class Api {
         type: "query",
       },
     ];
-    return request(this.config, "/user/createWithList", "post", params);
+    const response = await request(
+      this.config,
+      "/user/createWithList",
+      "post",
+      params
+    );
+    return deserialize(response, "User");
   }
 
   // Logs user into the system
@@ -268,14 +323,16 @@ export default class Api {
         type: "query",
       });
     }
-    return request(this.config, "/user/login", "get", params);
+    const response = await request(this.config, "/user/login", "get", params);
+    return deserialize(response, "string");
   }
 
   // Logs out current logged in user session
 
   async logoutUser(): Promise<null> {
     const params: Parameter[] = [];
-    return request(this.config, "/user/logout", "get", params);
+    const response = await request(this.config, "/user/logout", "get", params);
+    return deserialize(response, "null");
   }
 
   // Get user by user name
@@ -289,7 +346,13 @@ export default class Api {
         type: "path",
       },
     ];
-    return request(this.config, "/user/{username}", "get", params);
+    const response = await request(
+      this.config,
+      "/user/{username}",
+      "get",
+      params
+    );
+    return deserialize(response, "User");
   }
 
   // Update user
@@ -309,7 +372,13 @@ export default class Api {
         type: "query",
       },
     ];
-    return request(this.config, "/user/{username}", "put", params);
+    const response = await request(
+      this.config,
+      "/user/{username}",
+      "put",
+      params
+    );
+    return deserialize(response, "null");
   }
 
   // Delete user
@@ -323,6 +392,12 @@ export default class Api {
         type: "path",
       },
     ];
-    return request(this.config, "/user/{username}", "delete", params);
+    const response = await request(
+      this.config,
+      "/user/{username}",
+      "delete",
+      params
+    );
+    return deserialize(response, "null");
   }
 }

@@ -1,7 +1,6 @@
 // TODO: add type definitions to the generator
 const generate = require("openapi-forge/src/generate");
 
-import { after } from "cucumber-tsflow";
 import { rm, existsSync } from "fs";
 import { promisify } from "util";
 
@@ -18,5 +17,6 @@ export class BaseModelStep {
     await generate(JSON.parse(schema), ".", {
       output: "./features/api",
     });
+ 
   }
 }
