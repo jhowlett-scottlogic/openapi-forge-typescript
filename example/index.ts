@@ -20,26 +20,30 @@ const api = new Api(config);
 //   console.log(data);
 // });
 
-api
-  .addPet({
-    id: 1,
-    name: "Fido",
-    photoUrls: ["http://example.com/photo1"],
-    status: "available",
-    category: {
-      id: 1,
-      name: "dog",
-    },
-    tags: [
-      {
-        id: 0,
-        name: "string",
-      },
-    ],
-  })
-  .then((data) => {
-    console.log(data);
-  });
+api.getInventory().then((data) => {
+  console.log(data);
+});
+
+// api
+//   .addPet({
+//     id: 1,
+//     name: "Fido",
+//     photoUrls: ["http://example.com/photo1"],
+//     status: "available",
+//     category: {
+//       id: 1,
+//       name: "dog",
+//     },
+//     tags: [
+//       {
+//         id: 0,
+//         name: "string",
+//       },
+//     ],
+//   })
+//   .then((data) => {
+//     console.log(data);
+//   });
 
   // api.getPetById(1).then((data) => {
   //   console.log(data);

@@ -1,5 +1,6 @@
 import * as model from "./model";
 
+// takes a JSON response and deserializes it into the required model objects / types
 export function deserialize(json: any, type: string): any {
   // handle arrays
   if (type.endsWith("[]")) {
@@ -22,8 +23,20 @@ export function deserialize(json: any, type: string): any {
     return modelObject;
   }
 
+  // handle date types
   if (type === "Date") {
     return new Date(json);
+  }
+
+  // handle additional properties
+  const match = type.match(/\{ \[name: string\]: (.*) \}/);
+  if (match) {
+    const typeName = match[1];
+    const modelObject: { [name: string]: any } = {};
+    for (const key in json) {
+      modelObject[key] = deserialize(json[key], typeName);
+    }
+    return modelObject;
   }
 
   return json;
