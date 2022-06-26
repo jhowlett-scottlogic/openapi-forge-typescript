@@ -31,7 +31,8 @@ export async function request(
     );
   }
 
-  let url = (config.basePath ?? "") + config.servers[0] + path;
+  let url =
+    (config.basePath ?? "") + config.servers[config.selectedServerIndex] + path;
 
   // build the query string
   const queryParams = params.filter((p) => p.type === "query");

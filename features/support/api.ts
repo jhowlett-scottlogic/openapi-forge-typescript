@@ -10,8 +10,9 @@ export class ModelSteps extends BaseModelStep {
   private requestParams: RequestParameters;
   private apiResponse: any;
   private serverResponseObject: any;
+  private api: any;
 
-  createApi(): any {
+  createApi(serverIndex: number = 0): any {
     const apiModule = require("../api/api.ts");
     const configurationModule = require("../api/configuration.ts");
 
@@ -21,6 +22,7 @@ export class ModelSteps extends BaseModelStep {
     };
 
     const config = new configurationModule.default(mockTransport);
+    config.selectedServerIndex = serverIndex;
     return new apiModule.default(config);
   }
 
@@ -34,19 +36,23 @@ export class ModelSteps extends BaseModelStep {
   @given("an API with the following specification")
   public async generate(schema: string) {
     await this.generateApi(schema);
+    this.api = this.createApi();
   }
 
   @when(/calling the method ([a-zA-Z]*) without params/)
   public async callMethod(methodName: string) {
-    const api = this.createApi();
-    await api[methodName]();
+    await this.api[methodName]();
   }
 
   @when(/calling the method ([a-zA-Z]*) with parameters "([\w0-9, ]*)"/)
   public async callMethodWithParameters(methodName: string, params: string) {
-    const api = this.createApi();
     const values = params.split(",");
-    await api[methodName].apply(api, values);
+    await this.api[methodName].apply(this.api, values);
+  }
+
+  @when("selecting the server at index {int}")
+  public selectServerAtIndex(index: number) {
+    this.api = this.createApi(index);
   }
 
   @then(/the requested URL should be (.*)/)
@@ -56,9 +62,8 @@ export class ModelSteps extends BaseModelStep {
 
   @when(/calling the method ([a-zA-Z]*) and the server responds with/)
   public async callWithResponse(methodName: string, response: string) {
-    const api = this.createApi();
     this.serverResponseObject = JSON.parse(response);
-    this.apiResponse = await api[methodName]();
+    this.apiResponse = await this.api[methodName]();
   }
 
   @then(/the response should be of type (.*)/)

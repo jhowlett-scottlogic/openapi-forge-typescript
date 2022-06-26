@@ -1,11 +1,32 @@
 import { RequestParameters } from "./request";
 
+/**
+ * A function which performs a request to the API.
+ */
 export interface TransportFunc {
   (request: RequestParameters): Promise<any>;
 }
 
+/**
+ * Configures the API
+ *
+ * When invoking API methods, the URL is constructed as follows:
+ * ```
+ * basePath + servers[selectedServerIndex] + path
+ * ```
+ */
 export default class Configuration {
+  /**
+   * An array of API endpoints.
+   */
   public servers: string[] = [{{#each servers}}"{{url}}",{{/each}}];
+  /**
+   * The index of the server / endpoint that will be used by default.
+   */
+  public selectedServerIndex = 0;
+  /**
+   * The base path, which is prepended to the URL
+   */
   public basePath?: string;
   public bearerToken?: string;
   public transport: TransportFunc;
