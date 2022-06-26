@@ -10,7 +10,7 @@ import {
   ApiResponse,
 } from "./model";
 import { request, Parameter } from "./request";
-import { deserialize } from "./serializer";
+import { deserialize, serialize } from "./serializer";
 
 // Swagger Petstore - OpenAPI 3.0
 export default class Api {
@@ -27,10 +27,11 @@ export default class Api {
     const params: Parameter[] = [
       {
         name: "body",
-        value: body.toString(),
-        type: "query",
+        value: serialize(body, "Pet"),
+        type: "body",
       },
     ];
+
     const response = await request(this.config, "/pet", "put", params);
     return deserialize(response, "Pet");
   }
@@ -42,10 +43,11 @@ export default class Api {
     const params: Parameter[] = [
       {
         name: "body",
-        value: body.toString(),
-        type: "query",
+        value: serialize(body, "Pet"),
+        type: "body",
       },
     ];
+
     const response = await request(this.config, "/pet", "post", params);
     return deserialize(response, "Pet");
   }
@@ -57,10 +59,11 @@ export default class Api {
     const params: Parameter[] = [
       {
         name: "status",
-        value: status.toString(),
+        value: serialize(status, "string"),
         type: "query",
       },
     ];
+
     const response = await request(
       this.config,
       "/pet/findByStatus",
@@ -75,13 +78,15 @@ export default class Api {
   // @param tags Tags to filter by
   async findPetsByTags(tags?: string[]): Promise<Pet[]> {
     const params: Parameter[] = [];
+
     if (tags) {
       params.push({
         name: "tags",
-        value: tags.toString(),
+        value: serialize(tags, "string[]"),
         type: "query",
       });
     }
+
     const response = await request(
       this.config,
       "/pet/findByTags",
@@ -98,10 +103,11 @@ export default class Api {
     const params: Parameter[] = [
       {
         name: "petId",
-        value: petId.toString(),
+        value: serialize(petId, "number"),
         type: "path",
       },
     ];
+
     const response = await request(this.config, "/pet/{petId}", "get", params);
     return deserialize(response, "Pet");
   }
@@ -119,24 +125,27 @@ export default class Api {
     const params: Parameter[] = [
       {
         name: "petId",
-        value: petId.toString(),
+        value: serialize(petId, "number"),
         type: "path",
       },
     ];
+
     if (name) {
       params.push({
         name: "name",
-        value: name.toString(),
+        value: serialize(name, "string"),
         type: "query",
       });
     }
+
     if (status) {
       params.push({
         name: "status",
-        value: status.toString(),
+        value: serialize(status, "string"),
         type: "query",
       });
     }
+
     const response = await request(this.config, "/pet/{petId}", "post", params);
     return deserialize(response, "null");
   }
@@ -149,17 +158,19 @@ export default class Api {
     const params: Parameter[] = [
       {
         name: "petId",
-        value: petId.toString(),
+        value: serialize(petId, "number"),
         type: "path",
       },
     ];
+
     if (api_key) {
       params.push({
         name: "api_key",
-        value: api_key.toString(),
+        value: serialize(api_key, "string"),
         type: "header",
       });
     }
+
     const response = await request(
       this.config,
       "/pet/{petId}",
@@ -180,17 +191,19 @@ export default class Api {
     const params: Parameter[] = [
       {
         name: "petId",
-        value: petId.toString(),
+        value: serialize(petId, "number"),
         type: "path",
       },
     ];
+
     if (additionalMetadata) {
       params.push({
         name: "additionalMetadata",
-        value: additionalMetadata.toString(),
+        value: serialize(additionalMetadata, "string"),
         type: "query",
       });
     }
+
     const response = await request(
       this.config,
       "/pet/{petId}/uploadImage",
@@ -204,6 +217,7 @@ export default class Api {
   // Returns a map of status codes to quantities
   async getInventory(): Promise<{ [name: string]: number }> {
     const params: Parameter[] = [];
+
     const response = await request(
       this.config,
       "/store/inventory",
@@ -220,10 +234,11 @@ export default class Api {
     const params: Parameter[] = [
       {
         name: "body",
-        value: body.toString(),
-        type: "query",
+        value: serialize(body, "Order"),
+        type: "body",
       },
     ];
+
     const response = await request(this.config, "/store/order", "post", params);
     return deserialize(response, "Order");
   }
@@ -235,10 +250,11 @@ export default class Api {
     const params: Parameter[] = [
       {
         name: "orderId",
-        value: orderId.toString(),
+        value: serialize(orderId, "number"),
         type: "path",
       },
     ];
+
     const response = await request(
       this.config,
       "/store/order/{orderId}",
@@ -255,10 +271,11 @@ export default class Api {
     const params: Parameter[] = [
       {
         name: "orderId",
-        value: orderId.toString(),
+        value: serialize(orderId, "number"),
         type: "path",
       },
     ];
+
     const response = await request(
       this.config,
       "/store/order/{orderId}",
@@ -275,10 +292,11 @@ export default class Api {
     const params: Parameter[] = [
       {
         name: "body",
-        value: body.toString(),
-        type: "query",
+        value: serialize(body, "User"),
+        type: "body",
       },
     ];
+
     const response = await request(this.config, "/user", "post", params);
     return deserialize(response, "User");
   }
@@ -290,10 +308,11 @@ export default class Api {
     const params: Parameter[] = [
       {
         name: "body",
-        value: body.toString(),
-        type: "query",
+        value: serialize(body, "User[]"),
+        type: "body",
       },
     ];
+
     const response = await request(
       this.config,
       "/user/createWithList",
@@ -309,20 +328,23 @@ export default class Api {
   // @param password The password for login in clear text
   async loginUser(username?: string, password?: string): Promise<string> {
     const params: Parameter[] = [];
+
     if (username) {
       params.push({
         name: "username",
-        value: username.toString(),
+        value: serialize(username, "string"),
         type: "query",
       });
     }
+
     if (password) {
       params.push({
         name: "password",
-        value: password.toString(),
+        value: serialize(password, "string"),
         type: "query",
       });
     }
+
     const response = await request(this.config, "/user/login", "get", params);
     return deserialize(response, "string");
   }
@@ -331,6 +353,7 @@ export default class Api {
 
   async logoutUser(): Promise<null> {
     const params: Parameter[] = [];
+
     const response = await request(this.config, "/user/logout", "get", params);
     return deserialize(response, "null");
   }
@@ -342,10 +365,11 @@ export default class Api {
     const params: Parameter[] = [
       {
         name: "username",
-        value: username.toString(),
+        value: serialize(username, "string"),
         type: "path",
       },
     ];
+
     const response = await request(
       this.config,
       "/user/{username}",
@@ -363,15 +387,17 @@ export default class Api {
     const params: Parameter[] = [
       {
         name: "username",
-        value: username.toString(),
+        value: serialize(username, "string"),
         type: "path",
       },
+
       {
         name: "body",
-        value: body.toString(),
-        type: "query",
+        value: serialize(body, "User"),
+        type: "body",
       },
     ];
+
     const response = await request(
       this.config,
       "/user/{username}",
@@ -388,10 +414,11 @@ export default class Api {
     const params: Parameter[] = [
       {
         name: "username",
-        value: username.toString(),
+        value: serialize(username, "string"),
         type: "path",
       },
     ];
+
     const response = await request(
       this.config,
       "/user/{username}",

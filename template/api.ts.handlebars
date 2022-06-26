@@ -11,7 +11,7 @@ import Configuration from "./configuration";
   {{/if}}
 {{/if}}
 import { request, Parameter } from "./request";
-import { deserialize } from "./serializer";
+import { deserialize, serialize } from "./serializer";
 
 // {{info.title}}
 {{!-- // {{info.description}} --}}
@@ -45,27 +45,24 @@ export default class Api {
       {{/if}}
     > {
       const params: Parameter[] = [
-        {{#each _sortedParameters}}
-        {{#unless _optional}}
+        {{#each _sortedParameters}}{{#unless _optional}}
           {
             name: "{{name}}",
-            value: {{name}}.toString(),
+            value: serialize({{name}}, "{{typeConvert schema}}"),
             type: "{{in}}"
           },
-        {{/unless}}
-        {{/each}}
+        {{/unless}}{{/each}}
       ];
-      {{#each _sortedParameters}}
-      {{#if _optional}}
+      {{#each _sortedParameters}}{{#if _optional}}
       if ({{name}}) {
         params.push({
           name: "{{name}}",
-          value: {{name}}.toString(),
+          value: serialize({{name}}, "{{typeConvert schema}}"),
           type: "{{in}}"
         })
       }
-      {{/if}}
-      {{/each}}
+      {{/if}}{{/each}}
+
       const response = await request(this.config, "{{@root.path}}", "{{@key}}", params);
       return deserialize(response, "{{#if _response.schema}}{{typeConvert _response.schema}}{{else}}null{{/if}}");
     };

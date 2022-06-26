@@ -28,3 +28,7 @@ export function deserialize(json: any, type: string): any {
 
   return json;
 }
+
+export function serialize(item: any, type: string): string {
+  return typeof item === "object" ? JSON.stringify(item) : item.toString();
+}

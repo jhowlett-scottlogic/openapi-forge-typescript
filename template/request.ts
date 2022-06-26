@@ -68,7 +68,7 @@ export async function request(
 
   const bodyParam = params.find((p) => p.type === "body");
   if (bodyParam) {
-    requestParams.body = JSON.stringify(bodyParam.value);
+    requestParams.body = bodyParam.value;
   }
 
   return await config.transport(requestParams);
