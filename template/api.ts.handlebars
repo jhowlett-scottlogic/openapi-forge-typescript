@@ -33,7 +33,15 @@ export default class Api {
     {{/each}}
     async {{operationId}}(
       {{#each _sortedParameters}}
-        {{name}}{{#if _optional}}?{{/if}}: {{typeConvert schema}}{{#if schema.default}} = {{{quoteIfString schema.default}}}{{/if}},
+        {{name}}{{#if _optional}}?{{/if}}:
+        {{#if ../../../_options.testRun }}
+          {{#if schema.$ref}}typeof{{/if}}
+          {{#ifEquals schema.type "array"}}typeof{{/ifEquals}}
+          {{typeConvert schema}}
+        {{else}}
+          {{typeConvert schema}}
+        {{/if}}
+        {{#if schema.default}} = {{{quoteIfString schema.default}}}{{/if}},
       {{/each}}
     ): Promise<
       {{#if ../../_options.testRun }}
