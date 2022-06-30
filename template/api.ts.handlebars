@@ -1,15 +1,6 @@
 import Configuration from "./configuration";
-{{#if components.schemas}}
-  {{#if _options.testRun }}
-    const {
-      {{#each components.schemas}}{{@key}}, {{/each}}
-    } = require("./model");
-  {{else}}
-    import {
-      {{#each components.schemas}}{{@key}}, {{/each}}
-    } from "./model";
-  {{/if}}
-{{/if}}
+{{>modelIncludes models=components.schemas options=_options}}
+{{>modelIncludes models=components.inlineObjects options=_options}}
 import { request, Parameter } from "./request";
 import { deserialize, serialize } from "./serializer";
 

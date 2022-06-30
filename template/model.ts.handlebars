@@ -1,33 +1,16 @@
 {{#each components.schemas}}
-{{#if description}}
-/**
- * {{description}}
- */
-{{/if}}
-export class {{@key}} {
+{{> model}}
+{{/each}}
 
-  static propertyTypes: Array<{name: string, type: string}> =  [
-    {{#each properties}}
-      {
-        name: "{{@key}}",
-        type: "{{typeConvert this}}"
-      },
-    {{/each}}
-  ];
-
-
-  {{#each properties}}
-    {{#if description}}
-    // {{description}}
-    {{/if}}
-    public {{@key}}{{#unless _required}}?{{/unless}}: {{typeConvert this}};
-  {{/each}}
-}
-
+{{#each components.inlineObjects}}
+{{> model}}
 {{/each}}
 
 export const models: string[] = [
 {{#each components.schemas}}
+"{{@key}}", 
+{{/each}}
+{{#each components.inlineObjects}}
 "{{@key}}", 
 {{/each}}
 ];
