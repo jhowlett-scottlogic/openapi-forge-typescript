@@ -81,6 +81,17 @@ export class ModelSteps extends BaseModelStep {
     assert.equal(this.requestParams.body, body);
   }
 
+  @when(/calling the method ([a-zA-Z]*) and the server provides an empty response/)
+  public async callWithoutResponse(methodName: string) {
+    this.serverResponseObject = null;
+    this.apiResponse = await this.api[methodName]();
+  }
+
+  @then(/the response should be null/)
+  public checkResponseIsNull() {
+    assert.isNull(this.apiResponse);
+  }
+
   @when(/calling the method ([a-zA-Z]*) and the server responds with/)
   public async callWithResponse(methodName: string, response: string) {
     this.serverResponseObject = JSON.parse(response);
