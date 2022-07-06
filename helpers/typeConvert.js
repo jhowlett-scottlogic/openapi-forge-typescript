@@ -1,5 +1,4 @@
 function typeConvert(prop, options) {
-  if (!prop) return "null";
   // the feature tests involve dynamically creating generating multiple APIs, as a result
   // the CommonJS 'require' style of module imports are used so that the cache can be invalidated.
   // ES6 / ESM modules cannot be invalidated! In order to make this work with TypeScript, when using
