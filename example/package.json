@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "",
   "scripts": {
-    "generate-api": "openapi-forge forge ./petstore.json .. -o api",
+    "generate-api": "openapi-forge forge ./petstore.json .. -o api -l quiet",
     "start": " ts-node index.ts"
   },
   "dependencies": {

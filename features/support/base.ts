@@ -18,7 +18,8 @@ export class BaseModelStep {
     await generate(JSON.parse(schema), ".", {
       output: "./features/api",
       testRun: true,
-      skipValidation: true
+      skipValidation: true,
+      logLevel: "quiet"
     });
   }
 }
