@@ -1,5 +1,6 @@
 // TODO: add type definitions to the generator
-const generate = require("openapi-forge/src/generate");
+const generatePath = "openapi-forge/src/generate";
+const generate = require(generatePath);
 
 import { rmSync, existsSync } from "fs";
 
