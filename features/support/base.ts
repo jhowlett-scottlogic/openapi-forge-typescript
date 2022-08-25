@@ -1,5 +1,8 @@
 // TODO: add type definitions to the generator
 const generatePath = "openapi-forge/src/generate";
+
+const apiPath = "./features/api";
+
 const generate = require(generatePath);
 
 import { rmSync, existsSync } from "fs";
@@ -10,14 +13,14 @@ export class BaseModelStep {
     Object.keys(require.cache).forEach(function (key) {
       delete require.cache[key];
     });
-    if (existsSync("./features/api")) {
-      rmSync("./features/api", { recursive: true });
+    if (existsSync(apiPath)) {
+      rmSync(apiPath, { recursive: true });
     }
   }
 
   async generateApi(schema: string) {
     await generate(JSON.parse(schema), ".", {
-      output: "./features/api",
+      output: apiPath,
       testRun: true,
       skipValidation: true,
       logLevel: "quiet"
