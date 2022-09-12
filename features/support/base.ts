@@ -3,7 +3,7 @@
 // Retrieve the path to generate.js from cl arguments of cucumber-js
 const generatePath = process.argv.slice(2)[3];
 
-if (generatePath === undefined) {
+if (!generatePath) {
   throw new Error(`You must provide a path to generate.js.`);
 }
 

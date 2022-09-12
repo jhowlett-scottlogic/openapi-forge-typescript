@@ -25,7 +25,7 @@ $ openapi-forge forge
 
 Using the one command below you can automatically run the testing:
 ~~~
-npm test [{featurePath} [{generatorPath}]]
+npm test [{featurePath} [{generatorPath}] ]
 ~~~
 The two arguments are optional.
 
