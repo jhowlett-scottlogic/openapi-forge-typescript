@@ -1,5 +1,13 @@
 // TODO: add type definitions to the generator
-const generate = require("openapi-forge/src/generate");
+
+// Retrieve the path to generate.js from cl arguments of cucumber-js
+const generatePath = process.argv.slice(2)[3];
+
+if (!generatePath) {
+  throw new Error(`You must provide a path to generate.js.`);
+}
+
+const generate = require(generatePath);
 
 import { rmSync, existsSync } from "fs";
 
