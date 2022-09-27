@@ -1,11 +1,11 @@
 {{#if models}}
-  {{#if options.testRun }}
+  {{#if options.testRun}}
     const {
-      {{#each models}}{{@key}}, {{/each}}
+    {{#each models}}{{@key}}, {{/each}}
     } = require("./model");
   {{else}}
     import {
-      {{#each models}}{{@key}}, {{/each}}
+    {{#each models}}{{@key}}, {{/each}}
     } from "./model";
   {{/if}}
 {{/if}}

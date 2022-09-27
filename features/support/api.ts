@@ -100,7 +100,9 @@ export class ModelSteps extends BaseModelStep {
     expect(this.requestParams.headers).to.have.property("test", headerParam)
   }
 
-  @when(/calling the method ([a-zA-Z]*) and the server provides an empty response/)
+  @when(
+    /calling the method ([a-zA-Z]*) and the server provides an empty response/
+  )
   public async callWithoutResponse(methodName: string) {
     this.serverResponseObject = null;
     this.apiResponse = await this.api[methodName]();
