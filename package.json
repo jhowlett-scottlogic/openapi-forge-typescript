@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "description": "",
   "scripts": {
-    "test": "\"./node_modules/.bin/cucumber-js\" -p default \"node_modules/openapi-forge/features/*.feature\" \"openapi-forge/src/generate\""
+    "test": "\"./node_modules/.bin/cucumber-js\" -p default",
+    "test:defaultPath": "\"./node_modules/.bin/cucumber-js\" -p default \"node_modules/openapi-forge/features/*.feature\" \"openapi-forge/src/generate\""
   },
   "license": "MIT",
   "devDependencies": {
