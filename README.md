@@ -22,20 +22,22 @@ $ openapi-forge forge
 ~~~
 
 ## Testing
+There are two scripts that can be used for testing, one that uses preset values for file paths to *.feature files and the generate.js file of the forge:
 
-Using the one command below you can automatically run the testing:
+Using default values:
 ~~~
-npm test [{featurePath} {generatorPath}]
-~~~
-The two arguments are optional.
-
-You must give a featurePath and a generatorPath if you want custom paths.
-
-Default values:
+npm run test:defaultPaths
+~~
+This method uses:
 
 featurePath: node_modules/openapi-forge/features/*.feature
 
 generatorPath: openapi-forge/src/generate
+
+The second script requires values for the featurePath & generatePath:
+~~~
+npm test {featurePath} {generatorPath}
+~~~
 
 ## Notes
 
