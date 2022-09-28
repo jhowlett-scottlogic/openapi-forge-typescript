@@ -41,4 +41,4 @@ npm test {featurePath} {generatorPath}
 
 ## Notes
 
-The openapi-forge dependency is pointing to commit:6be3962bc263948237f71689b2df7ba73e116a55. If openapi-forge is updated and openapi-forge-typescript requires this updated version then the commit reference in package.json will have to be updated. This is a temporary measure and will be fixed once the packages are properly versioned and hosted on npm.  
+The openapi-forge dependency is pointing to commit:0fb044b3a2808e8faf82786f168a12763f5aaeca. If openapi-forge is updated and openapi-forge-typescript requires this updated version then the commit reference in package.json will have to be updated. This is a temporary measure and will be fixed once the packages are properly versioned and hosted on npm.  

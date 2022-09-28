@@ -15,7 +15,7 @@
     "cucumber": "^5.1.0",
     "cucumber-pretty": "^1.5.0",
     "cucumber-tsflow": "^3.2.0",
-    "openapi-forge": "github:ColinEberhardt/openapi-forge#6be3962bc263948237f71689b2df7ba73e116a55",
+    "openapi-forge": "github:ColinEberhardt/openapi-forge#0fb044b3a2808e8faf82786f168a12763f5aaeca",
     "ts-node": "^8.0.3",
     "typescript": "^4.7.4"
   }
