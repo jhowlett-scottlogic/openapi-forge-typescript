@@ -28,7 +28,7 @@ export class BaseModelStep {
       output: "./features/api",
       testRun: true,
       skipValidation: true,
-      logLevel: "quiet"
+      logLevel: "quiet",
     });
   }
 }
