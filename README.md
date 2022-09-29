@@ -37,6 +37,21 @@ featurePath: node_modules/openapi-forge/features/*.feature
 
 generatorPath: openapi-forge/src/generate
 
+## Linting
+
+Two scripts are available to aid you find linting errors:
+
+~~~
+npm run eslint:check
+~~~
+This runs eslint in check mode which will raise errors found but not try and fix them.
+This is also ran on a PR and push to main and will fail if any errors were found. 
+
+~~~
+npm run eslint:write
+~~~
+This runs eslint in write mode which will raise errors found and try to fix them.
+
 ## Notes
 
 The openapi-forge dependency is pointing to commit:6be3962bc263948237f71689b2df7ba73e116a55. If openapi-forge is updated and openapi-forge-typescript requires this updated version then the commit reference in package.json will have to be updated. This is a temporary measure and will be fixed once the packages are properly versioned and hosted on npm.  
