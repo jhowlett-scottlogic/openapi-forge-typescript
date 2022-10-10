@@ -47,7 +47,7 @@ Two scripts are available to help you find linting errors:
 npm run eslint:check
 ~~~
 This runs eslint in check mode which will raise errors found but not try and fix them.
-This is also ran on a PR and push to main and will fail if any errors were found. 
+This is also ran on a PR and a push to main. It will fail if any errors were found. 
 
 ~~~
 npm run eslint:write
