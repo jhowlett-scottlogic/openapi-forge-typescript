@@ -22,20 +22,22 @@ $ openapi-forge forge
 ~~~
 
 ## Testing
+There are two scripts that can be used for testing, one that uses preset values for file paths to *.feature files and the generate.js file of the forge:
 
-Using the one command below you can automatically run the testing:
+Using default values:
 ~~~
-npm test [{featurePath} {generatorPath}]
-~~~
-The two arguments are optional.
-
-You must give a featurePath and a generatorPath if you want custom paths.
-
-Default values:
+npm run test:defaultPaths
+~~
+This method uses:
 
 featurePath: node_modules/openapi-forge/features/*.feature
 
 generatorPath: openapi-forge/src/generate
+
+The second script requires values for the featurePath & generatePath:
+~~~
+npm test {featurePath} {generatorPath}
+~~~
 
 ## Linting
 
@@ -54,4 +56,4 @@ This runs eslint in write mode which will raise errors found and try to fix them
 
 ## Notes
 
-The openapi-forge dependency is pointing to commit:6be3962bc263948237f71689b2df7ba73e116a55. If openapi-forge is updated and openapi-forge-typescript requires this updated version then the commit reference in package.json will have to be updated. This is a temporary measure and will be fixed once the packages are properly versioned and hosted on npm.  
+The openapi-forge dependency is pointing to commit:0fb044b3a2808e8faf82786f168a12763f5aaeca. If openapi-forge is updated and openapi-forge-typescript requires this updated version then the commit reference in package.json will have to be updated. This is a temporary measure and will be fixed once the packages are properly versioned and hosted on npm.  

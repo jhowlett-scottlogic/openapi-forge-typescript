@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "description": "",
   "scripts": {
-    "test": "\"./node_modules/.bin/cucumber-js\" -p default \"node_modules/openapi-forge/features/*.feature\" \"openapi-forge/src/generate\"",
+    "test": "\"./node_modules/.bin/cucumber-js\" -p default",
+    "test:defaultPath": "\"./node_modules/.bin/cucumber-js\" -p default \"node_modules/openapi-forge/features/*.feature\" \"openapi-forge/src/generate\"",
     "eslint:check": "eslint .",
     "eslint:write": "eslint --fix ."
   },
@@ -19,7 +20,7 @@
     "cucumber-pretty": "^1.5.0",
     "cucumber-tsflow": "^3.2.0",
     "eslint": "^8.24.0",
-    "openapi-forge": "github:ColinEberhardt/openapi-forge#6be3962bc263948237f71689b2df7ba73e116a55",
+    "openapi-forge": "github:ColinEberhardt/openapi-forge#0fb044b3a2808e8faf82786f168a12763f5aaeca",
     "ts-node": "^8.0.3",
     "typescript": "^4.7.4"
   }
