@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "description": "",
   "scripts": {
-    "test": "\"./node_modules/.bin/cucumber-js\" -p default \"node_modules/openapi-forge/features/*.feature\" \"openapi-forge/src/generate\"",
-    "prettier:check": "prettier --check .",
-    "prettier:write": "prettier --write ."
+    "test": "\"./node_modules/.bin/cucumber-js\" -p default",
+    "test:defaultPath": "\"./node_modules/.bin/cucumber-js\" -p default \"node_modules/openapi-forge/features/*.feature\" \"openapi-forge/src/generate\"",
+    "format:check": "prettier --check .",
+    "format:write": "prettier --write ."
   },
   "license": "MIT",
   "devDependencies": {
