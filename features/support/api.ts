@@ -19,7 +19,7 @@ export class ModelSteps extends BaseModelStep {
   private serverResponseObject: any;
   private api: any;
 
-  createApi(serverIndex: number = 0): any {
+  createApi(serverIndex = 0): any {
     const apiModule = require("../api/api.ts");
     const configurationModule = require("../api/configuration.ts");
 
@@ -69,7 +69,7 @@ export class ModelSteps extends BaseModelStep {
       console.error(`Method ${methodName} not found`);
     }
     values = values.map((value) => (isJson(value) ? JSON.parse(value) : value));
-    await this.api[methodName].apply(this.api, values);
+    await this.api[methodName](...values);
   }
 
   @when(/calling the method ([a-zA-Z]*) with array "(.*)"/)

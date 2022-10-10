@@ -4,17 +4,22 @@
   "description": "",
   "scripts": {
     "test": "\"./node_modules/.bin/cucumber-js\" -p default",
-    "test:defaultPath": "\"./node_modules/.bin/cucumber-js\" -p default \"node_modules/openapi-forge/features/*.feature\" \"openapi-forge/src/generate\""
+    "test:defaultPath": "\"./node_modules/.bin/cucumber-js\" -p default \"node_modules/openapi-forge/features/*.feature\" \"openapi-forge/src/generate\"",
+    "lint:check": "eslint .",
+    "lint:write": "eslint --fix ."
   },
   "license": "MIT",
   "devDependencies": {
     "@types/chai": "^4.1.7",
     "@types/cucumber": "^4.0.5",
     "@types/node": "^18.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.38.1",
+    "@typescript-eslint/parser": "^5.38.1",
     "chai": "^4.2.0",
     "cucumber": "^5.1.0",
     "cucumber-pretty": "^1.5.0",
     "cucumber-tsflow": "^3.2.0",
+    "eslint": "^8.24.0",
     "openapi-forge": "github:ColinEberhardt/openapi-forge#0fb044b3a2808e8faf82786f168a12763f5aaeca",
     "ts-node": "^8.0.3",
     "typescript": "^4.7.4"

@@ -64,7 +64,7 @@ export async function request(
     additionalHeaders["Authorization"] = `Bearer ${config.bearerToken}`;
   }
 
-  let requestParams: RequestParameters = {
+  const requestParams: RequestParameters = {
     url,
     method,
     headers: {
