@@ -5,8 +5,8 @@
   "scripts": {
     "test": "\"./node_modules/.bin/cucumber-js\" -p default",
     "test:defaultPath": "\"./node_modules/.bin/cucumber-js\" -p default \"node_modules/openapi-forge/features/*.feature\" \"openapi-forge/src/generate\"",
-    "eslint:check": "eslint .",
-    "eslint:write": "eslint --fix ."
+    "lint:check": "eslint .",
+    "lint:write": "eslint --fix ."
   },
   "license": "MIT",
   "devDependencies": {
