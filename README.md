@@ -41,7 +41,7 @@ npm test {featurePath} {generatorPath}
 
 ## Linting
 
-Two scripts are available to aid you find linting errors:
+Two scripts are available to help you find linting errors:
 
 ~~~
 npm run eslint:check
