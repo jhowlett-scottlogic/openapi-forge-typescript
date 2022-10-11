@@ -102,10 +102,12 @@ export class ModelSteps extends BaseModelStep {
 
   @then(/the request header should have a cookie property with value (.*)/)
   public checkRequestCookie(cookieParam: string) {
-    expect(this.requestParams.headers).to.have.property("cookie", cookieParam)
+    expect(this.requestParams.headers).to.have.property("cookie", cookieParam);
   }
 
-  @when(/calling the method ([a-zA-Z]*) and the server provides an empty response/)
+  @when(
+    /calling the method ([a-zA-Z]*) and the server provides an empty response/
+  )
   public async callWithoutResponse(methodName: string) {
     this.serverResponseObject = null;
     this.apiResponse = await this.api[methodName]();

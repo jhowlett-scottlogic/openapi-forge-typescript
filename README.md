@@ -14,7 +14,7 @@ Install all the dependencies needed:
 npm install
 ```
 
-Once you have a local version, you can reference it's location as the 'generator' argument of the 'forge' command of openapi-forge.
+Once you have a local version, you can reference its location as the 'generator' argument of the 'forge' command of openapi-forge.
 
 ```
 $ openapi-forge forge
@@ -34,7 +34,7 @@ npm run test:defaultPaths
 ~~
 This method uses:
 
-featurePath: node_modules/openapi-forge/features/\*.feature
+featurePath: node_modules/openapi-forge/features/*.feature
 
 generatorPath: openapi-forge/src/generate
 
@@ -53,7 +53,7 @@ Two scripts are available to help you find linting errors:
 npm run eslint:check
 ~~~
 This runs eslint in check mode which will raise errors found but not try and fix them.
-This is also ran on a PR and a push to main. It will fail if any errors were found. 
+This is also ran on a PR and a push to main. It will fail if any errors were found.
 
 ~~~
 npm run eslint:write
