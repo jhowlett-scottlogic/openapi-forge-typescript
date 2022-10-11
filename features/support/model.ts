@@ -1,5 +1,3 @@
-
-
 import { binding, after, then, when } from "cucumber-tsflow";
 import { assert } from "chai";
 import * as ts from "typescript";
@@ -36,12 +34,12 @@ export class ModelSteps extends BaseModelStep {
     });
     return found;
   }
-  
+
   @after()
   public async after() {
     return this.cleanup();
   }
-  
+
   @when("generating an API from the following specification")
   public async generate(schema: string) {
     await this.generateApi(schema);
