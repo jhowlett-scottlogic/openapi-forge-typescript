@@ -45,6 +45,21 @@ npm test {featurePath} {generatorPath}
 
 ```
 
+## Linting
+
+Two scripts are available to help you find linting errors:
+
+~~~
+npm run eslint:check
+~~~
+This runs eslint in check mode which will raise errors found but not try and fix them.
+This is also ran on a PR and a push to main. It will fail if any errors were found. 
+
+~~~
+npm run eslint:write
+~~~
+This runs eslint in write mode which will raise errors found and try to fix them.
+
 ## Notes
 
 The openapi-forge dependency is pointing to commit:0fb044b3a2808e8faf82786f168a12763f5aaeca. If openapi-forge is updated and openapi-forge-typescript requires this updated version then the commit reference in package.json will have to be updated. This is a temporary measure and will be fixed once the packages are properly versioned and hosted on npm.

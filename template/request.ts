@@ -47,18 +47,31 @@ export async function request(
       return acc;
     }, {});
 
+  // add cookies to headers
+  const cookies = params
+  .filter((p) => p.location === "cookie")
+  .reduce<Headers>((acc, param, index, array) => {
+    acc["cookie"] ??= "";
+    acc["cookie"] += `${param.name}=${param.value}`;
+    if(index !== array.length - 1){
+      acc["cookie"] += ";"
+    }
+    return acc;
+  }, {});
+
   // provide a bearer token if required
   if (config.bearerToken) {
     additionalHeaders["Authorization"] = `Bearer ${config.bearerToken}`;
   }
 
-  let requestParams: RequestParameters = {
+  const requestParams: RequestParameters = {
     url,
     method,
     headers: {
       accept: "application/json",
       "Content-Type": "application/json",
       ...additionalHeaders,
+      ...cookies,
     },
   };
 
@@ -66,6 +79,6 @@ export async function request(
   if (bodyParam) {
     requestParams.body = bodyParam.value;
   }
-
+  
   return await config.transport(requestParams);
 }
