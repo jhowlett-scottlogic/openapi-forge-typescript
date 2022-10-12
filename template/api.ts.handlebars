@@ -5,8 +5,12 @@ import { request } from "./request";
 import { Parameter, ParameterBuilder } from "./parameterBuilder";
 import { deserialize, serialize } from "./serializer";
 
-// {{info.title}}
-{{!-- // {{info.description}} --}}
+/*
+{{_info.title}}
+{{info.description}}
+Version: {{info.version}}
+*/
+
 export default class Api {
   private config: Configuration;
 
