@@ -26,7 +26,7 @@ function parse(durationLine, resultLine) {
         skipped: 0,
         undef: parseTestResultNumber(resultMatch[6]),
         failed: parseTestResultNumber(resultMatch[3]),
-        time: time
+        time: time,
       };
     } else {
       throw new Error(`Could not parse the results of the TypeScript testing.`);
