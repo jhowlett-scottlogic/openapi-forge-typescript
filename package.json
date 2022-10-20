@@ -21,7 +21,7 @@
     "cucumber": "^5.1.0",
     "cucumber-pretty": "^1.5.0",
     "cucumber-tsflow": "^3.2.0",
-    "openapi-forge": "github:ColinEberhardt/openapi-forge#4aecbe5d8f47369ed13f1e2315a4999d78cd00cb",
+    "openapi-forge": "github:ColinEberhardt/openapi-forge#776b77c9f1b4595d3660041a4bc4853a4c08b8e8",
     "eslint": "^8.24.0",
     "prettier": "^2.7.1",
     "ts-node": "^8.0.3",
