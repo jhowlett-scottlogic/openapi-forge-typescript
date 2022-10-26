@@ -2,6 +2,10 @@ import { binding, after, then, when, given } from "cucumber-tsflow";
 import { assert, expect } from "chai";
 import { RequestParameters } from "../../template/request";
 import { BaseModelStep } from "./base";
+import chai = require("chai");
+import spies = require("chai-spies");
+
+chai.use(spies);
 
 const isJson = (str: string): boolean => {
   try {
@@ -18,11 +22,12 @@ export class ModelSteps extends BaseModelStep {
   private apiResponse: any;
   private serverResponseObject: any;
   private api: any;
+  private spy: any;
+  private request: any;
 
   createApi(serverIndex = 0): any {
     const apiModule = require("../api/api.ts");
     const configurationModule = require("../api/configuration.ts");
-
     const mockTransport = async (params: RequestParameters) => {
       this.requestParams = params;
       return this.serverResponseObject;
@@ -30,6 +35,7 @@ export class ModelSteps extends BaseModelStep {
 
     const config = new configurationModule.default(mockTransport);
     config.selectedServerIndex = serverIndex;
+
     return new apiModule.default(config);
   }
 
@@ -37,6 +43,7 @@ export class ModelSteps extends BaseModelStep {
   public async after() {
     this.serverResponseObject = undefined;
     this.apiResponse = undefined;
+
     return this.cleanup();
   }
 
@@ -59,6 +66,7 @@ export class ModelSteps extends BaseModelStep {
     if (!this.api[methodName]) {
       console.error(`Method ${methodName} not found`);
     }
+
     await this.api[methodName]();
   }
 
@@ -150,5 +158,21 @@ export class ModelSteps extends BaseModelStep {
   @when(/extracting the object at index ([0-9]*)/)
   public extractAtIndex(index: string) {
     this.apiResponse = this.apiResponse[parseInt(index)];
+  }
+
+  @when(/calling the spied method ([a-zA-Z]*) without params/)
+  public async callMethodWithSpy(methodName: string) {
+    if (!this.api[methodName]) {
+      console.error(`Method ${methodName} not found`);
+    }
+    this.request = require("../api/request.ts");
+    chai.spy.on(this.request, "request");
+
+    await this.api[methodName]();
+  }
+
+  @then(/the request method should be of type (.*)/)
+  public checkMethodType(value: string) {
+    expect(this.request.request).to.have.been.called.with(value);
   }
 }
