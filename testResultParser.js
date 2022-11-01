@@ -31,12 +31,12 @@ function parse(results) {
       /^(\d+)\sscenarios?\s\(((\d+)\sfailed)?(,\s)?((\d+)\sundefined)?(,\s)?((\d+)\spassed)?\)/
     );
     if (resultMatch) {
-        result.scenarios = parseTestResultNumber(resultMatch[1]);
-        result.passed = parseTestResultNumber(resultMatch[9]);
-        result.skipped = 0;
-        result.undef = parseTestResultNumber(resultMatch[6]);
-        result.failed = parseTestResultNumber(resultMatch[3]);
-        result.time = time;
+      result.scenarios = parseTestResultNumber(resultMatch[1]);
+      result.passed = parseTestResultNumber(resultMatch[9]);
+      result.skipped = 0;
+      result.undef = parseTestResultNumber(resultMatch[6]);
+      result.failed = parseTestResultNumber(resultMatch[3]);
+      result.time = time;
     } else {
       throw new Error(`Could not parse the results of the TypeScript testing.`);
     }
