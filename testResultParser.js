@@ -13,13 +13,12 @@ function parse(results) {
     if ((rr = results[xx].match(failLineRegex))) failures.push(rr[1]);
   }
 
-  let result;
+  let result = {};
   result.failures = failures;
 
   // Extract the duration of the testing from stdout.
   const durationMatch = results[ll - 2].match(/^(\d+)m(\d+)\.\d+s/);
 
-  result = {};
   if (durationMatch) {
     // Format the duration
     let time = "";
@@ -32,14 +31,12 @@ function parse(results) {
       /^(\d+)\sscenarios?\s\(((\d+)\sfailed)?(,\s)?((\d+)\sundefined)?(,\s)?((\d+)\spassed)?\)/
     );
     if (resultMatch) {
-      result = {
-        scenarios: parseTestResultNumber(resultMatch[1]),
-        passed: parseTestResultNumber(resultMatch[9]),
-        skipped: 0,
-        undef: parseTestResultNumber(resultMatch[6]),
-        failed: parseTestResultNumber(resultMatch[3]),
-        time: time,
-      };
+        result.scenarios = parseTestResultNumber(resultMatch[1]);
+        result.passed = parseTestResultNumber(resultMatch[9]);
+        result.skipped = 0;
+        result.undef = parseTestResultNumber(resultMatch[6]);
+        result.failed = parseTestResultNumber(resultMatch[3]);
+        result.time = time;
     } else {
       throw new Error(`Could not parse the results of the TypeScript testing.`);
     }
