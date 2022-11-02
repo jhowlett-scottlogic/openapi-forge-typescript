@@ -49,13 +49,13 @@ npm test {featurePath} {generatorPath}
 Two scripts are available to help you find linting errors:
 
 ```
-npm run eslint:check
+npm run eslint:check:all
 ```
 
 This runs eslint in check mode which will raise errors found but not try and fix them. This is also ran on a PR and a push to main. It will fail if any errors were found.
 
 ```
-npm run eslint:write
+npm run eslint:write:all
 ```
 
 This runs eslint in write mode which will raise errors found and try to fix them.
