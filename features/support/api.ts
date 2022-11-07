@@ -57,7 +57,7 @@ export class ModelSteps extends BaseModelStep {
   }
 
   @when(/calling the( spied)? method ([a-zA-Z]*) without params/)
-  public async callMethod(_:any, methodName: string) {
+  public async callMethod(_: any, methodName: string) {
     if (!this.api[methodName]) {
       console.error(`Method ${methodName} not found`);
     }
