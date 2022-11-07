@@ -2,10 +2,6 @@ import { binding, after, then, when, given } from "cucumber-tsflow";
 import { assert, expect } from "chai";
 import { RequestParameters } from "../../template/request";
 import { BaseModelStep } from "./base";
-import chai = require("chai");
-import spies = require("chai-spies");
-
-chai.use(spies);
 
 const isJson = (str: string): boolean => {
   try {
@@ -22,7 +18,6 @@ export class ModelSteps extends BaseModelStep {
   private apiResponse: any;
   private serverResponseObject: any;
   private api: any;
-  private spy: any;
   private request: any;
 
   createApi(serverIndex = 0): any {
@@ -61,8 +56,8 @@ export class ModelSteps extends BaseModelStep {
     await this.api[methodName](JSON.parse(value));
   }
 
-  @when(/calling the method ([a-zA-Z]*) without params/)
-  public async callMethod(methodName: string) {
+  @when(/calling the( spied)? method ([a-zA-Z]*) without params/)
+  public async callMethod(_:any, methodName: string) {
     if (!this.api[methodName]) {
       console.error(`Method ${methodName} not found`);
     }
@@ -160,19 +155,8 @@ export class ModelSteps extends BaseModelStep {
     this.apiResponse = this.apiResponse[parseInt(index)];
   }
 
-  @when(/calling the spied method ([a-zA-Z]*) without params/)
-  public async callMethodWithSpy(methodName: string) {
-    if (!this.api[methodName]) {
-      console.error(`Method ${methodName} not found`);
-    }
-    this.request = require("../api/request.ts");
-    chai.spy.on(this.request, "request");
-
-    await this.api[methodName]();
-  }
-
   @then(/the request method should be of type (.*)/)
   public checkMethodType(value: string) {
-    expect(this.request.request).to.have.been.called.with(value);
+    assert.equal(this.requestParams.method, value);
   }
 }
