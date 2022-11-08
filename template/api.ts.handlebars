@@ -13,7 +13,7 @@ Version: {{info.version}}
 
 {{#if _tag.description}}// {{_tag.description}}{{/if}}
 
-export default class Api{{#ifNotEquals _tag.name ""}}{{capitalizeFirst _tag.name}}{{/ifNotEquals}} {
+export default class Api{{_tag.name}} {
   private config: Configuration;
 
   constructor(config: Configuration) {
