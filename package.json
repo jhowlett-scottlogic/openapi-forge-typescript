@@ -2,7 +2,9 @@
   "name": "openapi-forge-typescript",
   "version": "0.1.0",
   "description": "",
-  "apiTemplate": "api.ts.handlebars",
+  "apiTemplates": [
+    "api.ts.handlebars"
+  ],
   "scripts": {
     "prepare": "husky install",
     "test": "\"./node_modules/.bin/cucumber-js\" -p default",

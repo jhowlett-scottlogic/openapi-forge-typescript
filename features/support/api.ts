@@ -25,8 +25,8 @@ export class ModelSteps extends BaseModelStep {
   private spy: any;
   private request: any;
 
-  createApi(serverIndex = 0): any {
-    const apiModule = require("../api/api.ts");
+  createApi(serverIndex = 0, tag = ""): any {
+    const apiModule = require(`../api/api${tag}.ts`);
     const configurationModule = require("../api/configuration.ts");
     const mockTransport = async (params: RequestParameters) => {
       this.requestParams = params;
@@ -51,6 +51,12 @@ export class ModelSteps extends BaseModelStep {
   public async generate(schema: string) {
     await this.generateApi(schema);
     this.api = this.createApi();
+  }
+
+  @given(/an API with the following specification and tag "(.*)"/)
+  public async generateWithTag(tag: string, schema: string) {
+    await this.generateApi(schema);
+    this.api = this.createApi(undefined, tag);
   }
 
   @when(/calling the method ([a-zA-Z]*) with object (.*)/)
@@ -174,5 +180,15 @@ export class ModelSteps extends BaseModelStep {
   @then(/the request method should be of type (.*)/)
   public checkMethodType(value: string) {
     expect(this.request.request).to.have.been.called.with(value);
+  }
+
+  @then(/the method "(.*)" should be present/)
+  public checkMethodExists(methodName: string) {
+    expect(this.api[methodName]).to.exist;
+  }
+
+  @then(/the method "(.*)" should not be present/)
+  public checkMethodDoesNotExist(methodName: string) {
+    expect(this.api[methodName]).to.not.exist;
   }
 }
