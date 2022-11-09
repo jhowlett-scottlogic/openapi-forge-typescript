@@ -2,11 +2,7 @@ import { binding, after, then, when, given } from "cucumber-tsflow";
 import { assert, expect } from "chai";
 import { RequestParameters } from "../../template/request";
 import { BaseModelStep } from "./base";
-import chai = require("chai");
-import spies = require("chai-spies");
 import fs = require("fs");
-
-chai.use(spies);
 
 const isJson = (str: string): boolean => {
   try {
