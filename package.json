@@ -26,7 +26,6 @@
     "@typescript-eslint/eslint-plugin": "^5.38.1",
     "@typescript-eslint/parser": "^5.38.1",
     "chai": "^4.2.0",
-    "chai-spies": "^1.0.0",
     "cucumber": "^5.1.0",
     "cucumber-pretty": "^1.5.0",
     "cucumber-tsflow": "^3.2.0",
