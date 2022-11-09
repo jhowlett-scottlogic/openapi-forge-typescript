@@ -4,6 +4,7 @@ import { RequestParameters } from "../../template/request";
 import { BaseModelStep } from "./base";
 import chai = require("chai");
 import spies = require("chai-spies");
+import fs = require("fs");
 
 chai.use(spies);
 
@@ -16,6 +17,10 @@ const isJson = (str: string): boolean => {
   return true;
 };
 
+const getTagFileName = (tag: string): string => {
+  return tag === "" ? "" : tag.charAt(0).toUpperCase() + tag.slice(1);
+};
+
 @binding()
 export class ModelSteps extends BaseModelStep {
   private requestParams: RequestParameters;
@@ -25,18 +30,22 @@ export class ModelSteps extends BaseModelStep {
   private spy: any;
   private request: any;
 
-  createApi(serverIndex = 0, tag = ""): any {
-    const apiModule = require(`../api/api${tag}.ts`);
-    const configurationModule = require("../api/configuration.ts");
-    const mockTransport = async (params: RequestParameters) => {
-      this.requestParams = params;
-      return this.serverResponseObject;
-    };
+  createApi(serverIndex = 0): any {
+    try {
+      const apiModule = require("../api/api.ts");
+      const configurationModule = require("../api/configuration.ts");
+      const mockTransport = async (params: RequestParameters) => {
+        this.requestParams = params;
+        return this.serverResponseObject;
+      };
 
-    const config = new configurationModule.default(mockTransport);
-    config.selectedServerIndex = serverIndex;
+      const config = new configurationModule.default(mockTransport);
+      config.selectedServerIndex = serverIndex;
 
-    return new apiModule.default(config);
+      return new apiModule.default(config);
+    } catch {
+      return null;
+    }
   }
 
   @after()
@@ -51,12 +60,6 @@ export class ModelSteps extends BaseModelStep {
   public async generate(schema: string) {
     await this.generateApi(schema);
     this.api = this.createApi();
-  }
-
-  @given(/an API with the following specification and tag "(.*)"/)
-  public async generateWithTag(tag: string, schema: string) {
-    await this.generateApi(schema);
-    this.api = this.createApi(undefined, tag);
   }
 
   @when(/calling the method ([a-zA-Z]*) with object (.*)/)
@@ -182,13 +185,35 @@ export class ModelSteps extends BaseModelStep {
     expect(this.request.request).to.have.been.called.with(value);
   }
 
-  @then(/the method "(.*)" should be present/)
-  public checkMethodExists(methodName: string) {
-    expect(this.api[methodName]).to.exist;
+  @then(/the api file with tag "(.*)" exists/)
+  public checkFileExists(tag: string) {
+    fs.existsSync(`../api/api${getTagFileName(tag)}.ts`);
   }
 
-  @then(/the method "(.*)" should not be present/)
-  public checkMethodDoesNotExist(methodName: string) {
-    expect(this.api[methodName]).to.not.exist;
+  @then(/the api file with tag "(.*)" does not exist/)
+  public checkFileDoesNotExist(tag: string) {
+    !fs.existsSync(`../api/api${getTagFileName(tag)}.ts`);
+  }
+
+  @then(/the method "(.*)" should be present in the api file with tag "(.*)"/)
+  public checkMethodExists(methodName: string, tag: string) {
+    fs.existsSync(`../api/api${getTagFileName(tag)}.ts`);
+    const apiFile = require(`../api/api${tag}.ts`);
+
+    const module = new apiFile.default();
+
+    expect(module[methodName]).to.exist;
+  }
+
+  @then(
+    /the method "(.*)" should not be present in the api file with tag "(.*)"/
+  )
+  public checkMethodDoesNotExist(methodName: string, tag: string) {
+    fs.existsSync(`../api/api${getTagFileName(tag)}.ts`);
+    const apiFile = require(`../api/api${tag}.ts`);
+
+    const module = new apiFile.default();
+
+    expect(module[methodName]).to.not.exist;
   }
 }
