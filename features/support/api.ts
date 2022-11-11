@@ -182,7 +182,7 @@ export class ModelSteps extends BaseModelStep {
   @then(/the method "(.*)" should be present in the api file with tag "(.*)"/)
   public checkMethodExists(methodName: string, tag: string) {
     fs.existsSync(`../api/api${getTagFileName(tag)}.ts`);
-    const apiFile = require(`../api/api${tag}.ts`);
+    const apiFile = require(`../api/api${getTagFileName(tag)}.ts`);
 
     const module = new apiFile.default();
 
@@ -194,7 +194,7 @@ export class ModelSteps extends BaseModelStep {
   )
   public checkMethodDoesNotExist(methodName: string, tag: string) {
     fs.existsSync(`../api/api${getTagFileName(tag)}.ts`);
-    const apiFile = require(`../api/api${tag}.ts`);
+    const apiFile = require(`../api/api${getTagFileName(tag)}.ts`);
 
     const module = new apiFile.default();
 
