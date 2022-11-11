@@ -2,10 +2,7 @@ import { binding, after, then, when, given } from "cucumber-tsflow";
 import { assert, expect } from "chai";
 import { RequestParameters } from "../../template/request";
 import { BaseModelStep } from "./base";
-import chai = require("chai");
-import spies = require("chai-spies");
-
-chai.use(spies);
+import fs = require("fs");
 
 const isJson = (str: string): boolean => {
   try {
@@ -16,27 +13,34 @@ const isJson = (str: string): boolean => {
   return true;
 };
 
+const getTagFileName = (tag: string): string => {
+  return tag === "" ? "" : tag.charAt(0).toUpperCase() + tag.slice(1);
+};
+
 @binding()
 export class ModelSteps extends BaseModelStep {
   private requestParams: RequestParameters;
   private apiResponse: any;
   private serverResponseObject: any;
   private api: any;
-  private spy: any;
   private request: any;
 
   createApi(serverIndex = 0): any {
-    const apiModule = require("../api/api.ts");
-    const configurationModule = require("../api/configuration.ts");
-    const mockTransport = async (params: RequestParameters) => {
-      this.requestParams = params;
-      return this.serverResponseObject;
-    };
+    try {
+      const apiModule = require("../api/api.ts");
+      const configurationModule = require("../api/configuration.ts");
+      const mockTransport = async (params: RequestParameters) => {
+        this.requestParams = params;
+        return this.serverResponseObject;
+      };
 
-    const config = new configurationModule.default(mockTransport);
-    config.selectedServerIndex = serverIndex;
+      const config = new configurationModule.default(mockTransport);
+      config.selectedServerIndex = serverIndex;
 
-    return new apiModule.default(config);
+      return new apiModule.default(config);
+    } catch {
+      return null;
+    }
   }
 
   @after()
@@ -61,8 +65,8 @@ export class ModelSteps extends BaseModelStep {
     await this.api[methodName](JSON.parse(value));
   }
 
-  @when(/calling the method ([a-zA-Z]*) without params/)
-  public async callMethod(methodName: string) {
+  @when(/calling the( spied)? method ([a-zA-Z]*) without params/)
+  public async callMethod(_: any, methodName: string) {
     if (!this.api[methodName]) {
       console.error(`Method ${methodName} not found`);
     }
@@ -160,19 +164,40 @@ export class ModelSteps extends BaseModelStep {
     this.apiResponse = this.apiResponse[parseInt(index)];
   }
 
-  @when(/calling the spied method ([a-zA-Z]*) without params/)
-  public async callMethodWithSpy(methodName: string) {
-    if (!this.api[methodName]) {
-      console.error(`Method ${methodName} not found`);
-    }
-    this.request = require("../api/request.ts");
-    chai.spy.on(this.request, "request");
-
-    await this.api[methodName]();
-  }
-
   @then(/the request method should be of type (.*)/)
   public checkMethodType(value: string) {
-    expect(this.request.request).to.have.been.called.with(value);
+    assert.equal(this.requestParams.method, value);
+  }
+
+  @then(/the api file with tag "(.*)" exists/)
+  public checkFileExists(tag: string) {
+    fs.existsSync(`../api/api${getTagFileName(tag)}.ts`);
+  }
+
+  @then(/the api file with tag "(.*)" does not exist/)
+  public checkFileDoesNotExist(tag: string) {
+    !fs.existsSync(`../api/api${getTagFileName(tag)}.ts`);
+  }
+
+  @then(/the method "(.*)" should be present in the api file with tag "(.*)"/)
+  public checkMethodExists(methodName: string, tag: string) {
+    fs.existsSync(`../api/api${getTagFileName(tag)}.ts`);
+    const apiFile = require(`../api/api${tag}.ts`);
+
+    const module = new apiFile.default();
+
+    expect(module[methodName]).to.exist;
+  }
+
+  @then(
+    /the method "(.*)" should not be present in the api file with tag "(.*)"/
+  )
+  public checkMethodDoesNotExist(methodName: string, tag: string) {
+    fs.existsSync(`../api/api${getTagFileName(tag)}.ts`);
+    const apiFile = require(`../api/api${tag}.ts`);
+
+    const module = new apiFile.default();
+
+    expect(module[methodName]).to.not.exist;
   }
 }
