@@ -23,6 +23,14 @@ jobs:
       - name: Install Node.js dependencies
         run: npm install
 
+      - name: Install Forge
+        run: |
+          cd ..
+          git clone https://github.com/ScottLogic/openapi-forge.git
+          cd openapi-forge
+          npm install
+          npm install -g
+
       - name: Test generator
         run: npm run test:defaultPath
         continue-on-error: true
